@@ -5,7 +5,7 @@ server:
 
 spring:
   datasource:
-    url: ${DBMS_CONNECTION:jdbc:postgresql://localhost:5432/kite-cine}
+    url: ${DBMS_CONNECTION:jdbc:postgresql://localhost:5432}/kite-cine
     driverClassName: "org.postgresql.Driver"
     username: ${DBMS_USERNAME:postgres}
     password: ${DBMS_PASSWORD:postgres}
