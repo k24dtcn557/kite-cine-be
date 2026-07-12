@@ -1,0 +1,28 @@
+server:
+  port: 8680
+  servlet:
+    context-path: /kite-cine
+
+spring:
+  datasource:
+    url: ${DBMS_CONNECTION:jdbc:postgresql://localhost:5432/kite-cine}
+    driverClassName: "org.postgresql.Driver"
+    username: ${DBMS_USERNAME:postgres}
+    password: ${DBMS_PASSWORD:postgres}
+
+    hikari:
+      maximum-pool-size: 30
+      minimum-idle: 3
+      idle-timeout: 30000
+      connection-timeout: 30000
+      max-lifetime: 1800000
+      auto-commit: false
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+jwt:
+  signerKey: ${JWT_SIGNER_KEY:signer-key}
+  valid-duration: 3600 # in second
+  refreshable-duration: 36000 # in seconds

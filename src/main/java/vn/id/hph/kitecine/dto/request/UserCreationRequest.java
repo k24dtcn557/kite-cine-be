@@ -1,0 +1,28 @@
+package vn.id.hph.kitecine.dto.request;
+
+import java.time.LocalDate;
+
+import jakarta.validation.constraints.Size;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+import vn.id.hph.kitecine.validator.DobConstraint;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class UserCreationRequest {
+    @Size(min = 4, message = "USERNAME_INVALID")
+    String username;
+
+    @Size(min = 6, message = "INVALID_PASSWORD")
+    String password;
+
+    String firstName;
+    String lastName;
+
+    @DobConstraint(min = 10, message = "INVALID_DOB")
+    LocalDate dob;
+}

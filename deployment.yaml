@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: platform
+  labels:
+    app: kite-cine-be
+  name: kite-cine-be
+spec:
+  type: ClusterIP
+  ports:
+    - name: "8680"
+      port: 8680
+      targetPort: 8680
+  selector:
+    app: kite-cine-be
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: platform
+  labels:
+    app: kite-cine-be
+  name: kite-cine-be
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kite-cine-be
+  template:
+    metadata:
+      labels:
+        app: kite-cine-be
+    spec:
+      imagePullSecrets:
+        - name: gitlab-registry-credentials
+      containers:
+        - name: kite-cine-be
+          image: imageandtag
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8680
+          envFrom:
+            - configMapRef:
+                name: service-secret
+
+          volumeMounts:
+            - mountPath: /etc/logs
+              name: logs
+      volumes:
+        - name: logs
+          hostPath:
+            path: /mnt/data/shared-logs
