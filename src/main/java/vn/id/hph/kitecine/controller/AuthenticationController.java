@@ -12,9 +12,9 @@ import com.nimbusds.jose.JOSEException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import vn.id.hph.kitecine.dto.request.ApiResponse;
-import vn.id.hph.kitecine.dto.request.AuthenticationRequest;
-import vn.id.hph.kitecine.dto.request.LogoutRequest;
+import vn.id.hph.kitecine.controller.param.AuthenticationRequest;
+import vn.id.hph.kitecine.controller.param.LogoutRequest;
+import vn.id.hph.kitecine.controller.reponse.ApiResponse;
 import vn.id.hph.kitecine.facade.dto.AuthenticationResponse;
 import vn.id.hph.kitecine.service.AuthenticationService;
 

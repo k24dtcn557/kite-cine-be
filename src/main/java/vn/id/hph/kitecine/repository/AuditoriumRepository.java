@@ -1,0 +1,10 @@
+package vn.id.hph.kitecine.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
+
+import vn.id.hph.kitecine.entity.Auditorium;
+
+@Repository
+public interface AuditoriumRepository extends JpaRepository<Auditorium, Long>, JpaSpecificationExecutor<Auditorium> {}

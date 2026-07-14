@@ -8,8 +8,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import vn.id.hph.kitecine.dto.request.ApiResponse;
-import vn.id.hph.kitecine.dto.request.RoleRequest;
+import vn.id.hph.kitecine.controller.param.RoleRequest;
+import vn.id.hph.kitecine.controller.reponse.ApiResponse;
 import vn.id.hph.kitecine.facade.dto.RoleResponse;
 import vn.id.hph.kitecine.service.RoleService;
 

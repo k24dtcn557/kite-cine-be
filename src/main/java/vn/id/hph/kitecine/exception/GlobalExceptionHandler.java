@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import lombok.extern.slf4j.Slf4j;
-import vn.id.hph.kitecine.dto.request.ApiResponse;
+import vn.id.hph.kitecine.controller.reponse.ApiResponse;
 
 @ControllerAdvice
 @Slf4j

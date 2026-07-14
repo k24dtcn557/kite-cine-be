@@ -12,7 +12,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import vn.id.hph.kitecine.dto.request.ApiResponse;
+import vn.id.hph.kitecine.controller.reponse.ApiResponse;
 import vn.id.hph.kitecine.exception.ErrorCode;
 
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {

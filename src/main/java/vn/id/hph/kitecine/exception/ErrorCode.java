@@ -16,6 +16,9 @@ public enum ErrorCode {
     UNAUTHENTICATED(1006, "Unauthenticated", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(1007, "You do not have permission", HttpStatus.FORBIDDEN),
     INVALID_DOB(1008, "Your age must be at least {min}", HttpStatus.BAD_REQUEST),
+    CINEMA_NOT_FOUND(2001, "Không tìm thấy thông tin rạp", HttpStatus.NOT_FOUND),
+    AUDITORIUM_NOT_FOUND(2002, "Không tìm thấy thông tin phòng chiếu", HttpStatus.NOT_FOUND),
+    SEAT_NOT_FOUND(2003, "Không tìm thấy thông tin ghế", HttpStatus.NOT_FOUND);
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

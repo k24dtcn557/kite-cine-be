@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import com.nimbusds.jose.JOSEException;
 
-import vn.id.hph.kitecine.dto.request.IntrospectRequest;
+import vn.id.hph.kitecine.controller.param.IntrospectRequest;
 import vn.id.hph.kitecine.service.AuthenticationService;
 
 @Component
