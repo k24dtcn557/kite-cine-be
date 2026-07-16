@@ -95,8 +95,8 @@ public class SeatService {
             throw new AppException(ErrorCode.SEAT_ROW_ALREADY_EXISTED);
         }
 
-        for (int i = 0; i <= param.numberOfSeats(); i++) {
-            var seatParam = new SeatParam(auditorium.getId(), param.rowLetter(), i + 1, param.seatType());
+        for (int i = 1; i <= param.numberOfSeats(); i++) {
+            var seatParam = new SeatParam(auditorium.getId(), param.rowLetter(), i, param.seatType());
             create(auditorium, seatParam);
         }
 
