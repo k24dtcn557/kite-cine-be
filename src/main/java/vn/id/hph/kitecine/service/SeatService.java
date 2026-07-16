@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import vn.id.hph.kitecine.controller.param.AddRowParam;
 import vn.id.hph.kitecine.controller.param.SeatParam;
 import vn.id.hph.kitecine.controller.param.SeatSearchParam;
 import vn.id.hph.kitecine.controller.reponse.PageResponse;
@@ -85,5 +86,24 @@ public class SeatService {
     public void delete(Long id) {
         var seat = seatRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.SEAT_NOT_FOUND));
         seatRepository.delete(seat);
+    }
+
+    public List<Seat> addRow(Auditorium auditorium, AddRowParam param) {
+        boolean rowExisted = seatRepository.existsByAuditorium_IdAndRowLetter(auditorium.getId(), param.rowLetter());
+
+        if (rowExisted) {
+            throw new AppException(ErrorCode.SEAT_ROW_ALREADY_EXISTED);
+        }
+
+        for (int i = 0; i <= param.numberOfSeats(); i++) {
+            var seatParam = new SeatParam(auditorium.getId(), param.rowLetter(), i + 1, param.seatType());
+            create(auditorium, seatParam);
+        }
+
+        return null;
+    }
+
+    public List<Seat> getByAuditoriumId(Long auditoriumId) {
+        return seatRepository.findByAuditorium_Id(auditoriumId);
     }
 }

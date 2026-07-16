@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import vn.id.hph.kitecine.controller.param.AddRowParam;
 import vn.id.hph.kitecine.controller.param.AuditoriumParam;
 import vn.id.hph.kitecine.controller.param.AuditoriumSearchParam;
 import vn.id.hph.kitecine.controller.param.CinemaParam;
@@ -24,6 +25,9 @@ import vn.id.hph.kitecine.facade.CinemaFacade;
 import vn.id.hph.kitecine.facade.dto.AuditoriumDto;
 import vn.id.hph.kitecine.facade.dto.CinemaDto;
 import vn.id.hph.kitecine.facade.dto.SeatDto;
+import vn.id.hph.kitecine.facade.dto.SeatRowDto;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/management")
@@ -131,10 +135,24 @@ public class CinemaManagementController {
                 .build();
     }
 
+    @PostMapping("/cinemas/auditoriums/seats/add-row")
+    public ApiResponse<List<SeatDto>> addRow(@RequestBody AddRowParam param) {
+        return ApiResponse.<List<SeatDto>>builder()
+                .result(cinemaFacade.addRow(param))
+                .build();
+    }
+
     @PostMapping("/cinemas/auditoriums/seats/search")
     public ApiResponse<PageResponse<SeatDto>> searchSeats(@RequestBody SeatSearchParam param) {
         return ApiResponse.<PageResponse<SeatDto>>builder()
                 .result(cinemaFacade.searchSeats(param))
+                .build();
+    }
+
+    @GetMapping("/cinemas/auditoriums/{id}/seats")
+    public ApiResponse<List<SeatRowDto>> getAuditoriumSeats(@PathVariable Long id) {
+        return ApiResponse.<List<SeatRowDto>>builder()
+                .result(cinemaFacade.getAuditoriumSeats(id))
                 .build();
     }
 

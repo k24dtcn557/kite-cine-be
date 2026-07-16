@@ -1,5 +1,6 @@
 package vn.id.hph.kitecine.facade;
 
+import jakarta.transaction.Transactional;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -7,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import vn.id.hph.kitecine.controller.param.AddRowParam;
 import vn.id.hph.kitecine.controller.param.AuditoriumParam;
 import vn.id.hph.kitecine.controller.param.AuditoriumSearchParam;
 import vn.id.hph.kitecine.controller.param.CinemaParam;
@@ -14,15 +16,24 @@ import vn.id.hph.kitecine.controller.param.KeywordStatusSearchParam;
 import vn.id.hph.kitecine.controller.param.SeatParam;
 import vn.id.hph.kitecine.controller.param.SeatSearchParam;
 import vn.id.hph.kitecine.controller.reponse.PageResponse;
+import vn.id.hph.kitecine.entity.Seat;
 import vn.id.hph.kitecine.facade.dto.AuditoriumDto;
 import vn.id.hph.kitecine.facade.dto.CinemaDto;
 import vn.id.hph.kitecine.facade.dto.SeatDto;
+import vn.id.hph.kitecine.facade.dto.SeatRowDto;
 import vn.id.hph.kitecine.mapper.AuditoriumMapper;
 import vn.id.hph.kitecine.mapper.CinemaMapper;
 import vn.id.hph.kitecine.mapper.SeatMapper;
 import vn.id.hph.kitecine.service.AuditoriumService;
 import vn.id.hph.kitecine.service.CinemaService;
 import vn.id.hph.kitecine.service.SeatService;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -169,5 +180,33 @@ public class CinemaFacade {
                 .totalElements(auditoriumPageResponse.getTotalElements())
                 .totalPages(auditoriumPageResponse.getTotalPages())
                 .build();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<SeatDto> addRow(AddRowParam param) {
+        var auditorium = auditoriumService.get(param.auditoriumId());
+        var seats = seatService.addRow(auditorium, param);
+        return seatMapper.toSeatDtoList(seats);
+    }
+
+    public List<SeatRowDto> getAuditoriumSeats(Long id) {
+        var auditorium = auditoriumService.get(id);
+        var seats = seatService.getByAuditoriumId(auditorium.getId());
+        seats.sort(Comparator.comparing(Seat::getSeatNumber));
+
+        Map<String, List<SeatDto>> seatRowMap = new HashMap<>();
+        seats.forEach(seat -> {
+            List<SeatDto> rowSeat = seatRowMap.get(seat.getRowLetter());
+            if (rowSeat == null) {
+                rowSeat = new ArrayList<>();
+            }
+            rowSeat.add(seatMapper.toSeatDto(seat));
+            seatRowMap.put(seat.getRowLetter(), rowSeat);
+        });
+
+        return seatRowMap.entrySet().stream()
+                .map(entry -> new SeatRowDto(entry.getKey(), entry.getValue()))
+                .sorted(Comparator.comparing(SeatRowDto::rowLetter))
+                .collect(Collectors.toList());
     }
 }
