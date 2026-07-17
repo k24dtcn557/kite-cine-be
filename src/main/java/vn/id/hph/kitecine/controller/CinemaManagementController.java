@@ -17,7 +17,9 @@ import lombok.experimental.FieldDefaults;
 import vn.id.hph.kitecine.controller.param.AddRowParam;
 import vn.id.hph.kitecine.controller.param.AuditoriumParam;
 import vn.id.hph.kitecine.controller.param.AuditoriumSearchParam;
+import vn.id.hph.kitecine.controller.param.ChangeTypeParam;
 import vn.id.hph.kitecine.controller.param.CinemaParam;
+import vn.id.hph.kitecine.controller.param.DeleteSeatParam;
 import vn.id.hph.kitecine.controller.param.KeywordStatusSearchParam;
 import vn.id.hph.kitecine.controller.param.SeatParam;
 import vn.id.hph.kitecine.controller.param.SeatSearchParam;
@@ -178,6 +180,18 @@ public class CinemaManagementController {
     @DeleteMapping("/cinemas/auditoriums/seats/{id}")
     public ApiResponse<Void> deleteSeat(@PathVariable Long id) {
         cinemaFacade.deleteSeat(id);
+        return ApiResponse.<Void>builder().build();
+    }
+
+    @PostMapping("/cinemas/auditoriums/seats/delete")
+    public ApiResponse<Void> deleteSeats(@RequestBody DeleteSeatParam param) {
+        cinemaFacade.deleteSeats(param.ids());
+        return ApiResponse.<Void>builder().build();
+    }
+
+    @PostMapping("/cinemas/auditoriums/seats/change-type")
+    public ApiResponse<Void> changeSeatType(@RequestBody ChangeTypeParam param) {
+        cinemaFacade.changeSeatType(param);
         return ApiResponse.<Void>builder().build();
     }
 }

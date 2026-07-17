@@ -16,6 +16,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import vn.id.hph.kitecine.controller.param.AddRowParam;
+import vn.id.hph.kitecine.controller.param.ChangeTypeParam;
 import vn.id.hph.kitecine.controller.param.SeatParam;
 import vn.id.hph.kitecine.controller.param.SeatSearchParam;
 import vn.id.hph.kitecine.controller.reponse.PageResponse;
@@ -105,5 +106,15 @@ public class SeatService {
 
     public List<Seat> getByAuditoriumId(Long auditoriumId) {
         return seatRepository.findByAuditorium_Id(auditoriumId);
+    }
+
+    public void deleteAll(List<Long> ids) {
+        seatRepository.deleteAllById(ids);
+    }
+
+    public void changeType(ChangeTypeParam param) {
+        var seats = seatRepository.findAllById(param.ids());
+        seats.forEach(s -> s.setSeatType(param.seatType().name()));
+        seatRepository.saveAll(seats);
     }
 }

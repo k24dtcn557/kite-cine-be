@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import vn.id.hph.kitecine.controller.param.AddRowParam;
 import vn.id.hph.kitecine.controller.param.AuditoriumParam;
 import vn.id.hph.kitecine.controller.param.AuditoriumSearchParam;
+import vn.id.hph.kitecine.controller.param.ChangeTypeParam;
 import vn.id.hph.kitecine.controller.param.CinemaParam;
 import vn.id.hph.kitecine.controller.param.KeywordStatusSearchParam;
 import vn.id.hph.kitecine.controller.param.SeatParam;
@@ -221,5 +222,11 @@ public class CinemaFacade {
                         cinema.getUpdatedAt(),
                         cinema.getStatus()))
                 .collect(Collectors.toList());
+    }
+
+    public void deleteSeats(List<Long> ids) {}
+
+    public void changeSeatType(ChangeTypeParam param) {
+        seatService.changeType(param);
     }
 }
