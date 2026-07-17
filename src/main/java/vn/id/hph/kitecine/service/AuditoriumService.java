@@ -117,4 +117,8 @@ public class AuditoriumService {
         auditorium.setStatus(AuditoriumStatus.INACTIVE.name());
         auditoriumRepository.save(auditorium);
     }
+
+    public int getNumberOfAuditoriums(Long id) {
+        return auditoriumRepository.countByCinema_Id(id);
+    }
 }

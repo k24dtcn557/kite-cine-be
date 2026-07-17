@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 import vn.id.hph.kitecine.entity.Auditorium;
 
 @Repository
-public interface AuditoriumRepository extends JpaRepository<Auditorium, Long>, JpaSpecificationExecutor<Auditorium> {}
+public interface AuditoriumRepository extends JpaRepository<Auditorium, Long>, JpaSpecificationExecutor<Auditorium> {
+    int countByCinema_Id(Long id);
+}

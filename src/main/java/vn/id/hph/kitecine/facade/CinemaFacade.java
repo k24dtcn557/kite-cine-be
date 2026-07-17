@@ -1,6 +1,12 @@
 package vn.id.hph.kitecine.facade;
 
-import jakarta.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -27,13 +33,6 @@ import vn.id.hph.kitecine.mapper.SeatMapper;
 import vn.id.hph.kitecine.service.AuditoriumService;
 import vn.id.hph.kitecine.service.CinemaService;
 import vn.id.hph.kitecine.service.SeatService;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -207,6 +206,20 @@ public class CinemaFacade {
         return seatRowMap.entrySet().stream()
                 .map(entry -> new SeatRowDto(entry.getKey(), entry.getValue()))
                 .sorted(Comparator.comparing(SeatRowDto::rowLetter))
+                .collect(Collectors.toList());
+    }
+
+    public List<CinemaDto> getCinemas() {
+        var cinemas = cinemaService.getAll();
+        return cinemas.stream()
+                .map(cinema -> new CinemaDto(
+                        cinema.getId(),
+                        cinema.getName(),
+                        cinema.getAddress(),
+                        auditoriumService.getNumberOfAuditoriums(cinema.getId()),
+                        cinema.getCreatedAt(),
+                        cinema.getUpdatedAt(),
+                        cinema.getStatus()))
                 .collect(Collectors.toList());
     }
 }

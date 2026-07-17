@@ -1,5 +1,7 @@
 package vn.id.hph.kitecine.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,8 +29,6 @@ import vn.id.hph.kitecine.facade.dto.CinemaDto;
 import vn.id.hph.kitecine.facade.dto.SeatDto;
 import vn.id.hph.kitecine.facade.dto.SeatRowDto;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/management")
 @RequiredArgsConstructor
@@ -40,6 +40,13 @@ public class CinemaManagementController {
     public ApiResponse<CinemaDto> createCinema(@RequestBody CinemaParam param) {
         return ApiResponse.<CinemaDto>builder()
                 .result(cinemaFacade.createCinema(param))
+                .build();
+    }
+
+    @GetMapping("/cinemas")
+    public ApiResponse<List<CinemaDto>> getCinemas() {
+        return ApiResponse.<List<CinemaDto>>builder()
+                .result(cinemaFacade.getCinemas())
                 .build();
     }
 
