@@ -224,7 +224,9 @@ public class CinemaFacade {
                 .collect(Collectors.toList());
     }
 
-    public void deleteSeats(List<Long> ids) {}
+    public void deleteSeats(List<Long> ids) {
+        seatService.deleteAll(ids);
+    }
 
     public void changeSeatType(ChangeTypeParam param) {
         seatService.changeType(param);
