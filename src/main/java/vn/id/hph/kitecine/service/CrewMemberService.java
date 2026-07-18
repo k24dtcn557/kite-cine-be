@@ -98,4 +98,8 @@ public class CrewMemberService {
 
         crewMemberRepository.delete(crewMember);
     }
+
+    public List<CrewMember> getByMovieId(Long movieId) {
+        return crewMemberRepository.findByMovieId(movieId);
+    }
 }

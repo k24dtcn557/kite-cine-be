@@ -47,6 +47,12 @@ public class CrewMemberFacade {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
+    public List<CrewMemberDto> getCrewMembers(Long movieId) {
+        var list = crewMemberService.getByMovieId(movieId);
+        return crewMemberMapper.toCrewMemberDtoList(list);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     public PageResponse<CrewMemberDto> searchCrewMembers(CrewMemberSearchParam param) {
         var page = crewMemberService.search(param);
         var dtos = crewMemberMapper.toCrewMemberDtoList(page.getData());

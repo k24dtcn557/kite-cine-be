@@ -35,6 +35,13 @@ public class CrewMemberManagementController {
                 .build();
     }
 
+    @GetMapping("/movies/{movieId}/crew-members")
+    public ApiResponse<List<CrewMemberDto>> getCrewMembers(@PathVariable Long movieId) {
+        return ApiResponse.<List<CrewMemberDto>>builder()
+                .result(crewMemberFacade.getCrewMembers(movieId))
+                .build();
+    }
+
     @GetMapping("/movies/crew-members")
     public ApiResponse<List<CrewMemberDto>> getCrewMembers() {
         return ApiResponse.<List<CrewMemberDto>>builder()
