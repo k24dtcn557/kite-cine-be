@@ -9,6 +9,9 @@ public record MovieParam(
         String description,
         List<String> genres,
         Integer runtime,
+        String poster,
+        String background,
+        String video,
         LocalDate releaseDate,
         boolean highlighted,
         String status) {}

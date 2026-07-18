@@ -45,6 +45,15 @@ public class Movie extends AbstractAuditEntity {
     @Column(name = "runtime")
     Integer runtime;
 
+    @Column(name = "poster", length = 2000)
+    String poster;
+
+    @Column(name = "background", length = 2000)
+    String background;
+
+    @Column(name = "video", length = 2000)
+    String video;
+
     @Column(name = "release_date")
     LocalDate releaseDate;
 
