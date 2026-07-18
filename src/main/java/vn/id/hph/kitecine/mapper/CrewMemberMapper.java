@@ -17,6 +17,8 @@ public interface CrewMemberMapper {
 
     @Mapping(source = "movie.id", target = "movieId")
     @Mapping(source = "crewPerson.id", target = "crewPersonId")
+    @Mapping(source = "crewPerson.name", target = "name")
+    @Mapping(source = "crewPerson.avatar", target = "avatar")
     CrewMemberDto toCrewMemberDto(CrewMember entity);
 
     void update(@MappingTarget CrewMember entity, CrewMemberParam param);
