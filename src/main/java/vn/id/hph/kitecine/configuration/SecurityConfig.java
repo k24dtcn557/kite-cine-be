@@ -22,7 +22,7 @@ import org.springframework.web.filter.CorsFilter;
 @EnableMethodSecurity
 public class SecurityConfig {
     private final String[] PUBLIC_ENDPOINTS = {
-        "/movies/highlighted", "/movies/now-showing", "/movies/coming-soon", "/users", "/auth/token", "/auth/logout"
+        "/movies/**", "/users", "/auth/token", "/auth/logout"
     };
 
     @Autowired
@@ -30,7 +30,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS)
+        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers( PUBLIC_ENDPOINTS)
                 .permitAll()
                 .requestMatchers(HttpMethod.OPTIONS)
                 .permitAll()
