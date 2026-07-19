@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import vn.id.hph.kitecine.controller.param.KeywordStatusSearchParam;
 import vn.id.hph.kitecine.controller.param.MovieParam;
+import vn.id.hph.kitecine.controller.param.MovieSearchParam;
 import vn.id.hph.kitecine.controller.reponse.ApiResponse;
 import vn.id.hph.kitecine.controller.reponse.PageResponse;
 import vn.id.hph.kitecine.facade.MovieFacade;
@@ -43,7 +44,7 @@ public class MovieManagementController {
     }
 
     @PostMapping("/movies/search")
-    public ApiResponse<PageResponse<MovieDto>> searchMovies(@RequestBody KeywordStatusSearchParam param) {
+    public ApiResponse<PageResponse<MovieDto>> searchMovies(@RequestBody MovieSearchParam param) {
         return ApiResponse.<PageResponse<MovieDto>>builder()
                 .result(movieFacade.searchMovies(param))
                 .build();

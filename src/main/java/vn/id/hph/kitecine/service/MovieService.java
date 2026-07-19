@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import vn.id.hph.kitecine.controller.param.KeywordStatusSearchParam;
 import vn.id.hph.kitecine.controller.param.MovieParam;
+import vn.id.hph.kitecine.controller.param.MovieSearchParam;
 import vn.id.hph.kitecine.controller.reponse.PageResponse;
 import vn.id.hph.kitecine.entity.Movie;
 import vn.id.hph.kitecine.enums.MovieStatus;
@@ -49,13 +50,24 @@ public class MovieService {
         return movieRepository.save(movie);
     }
 
-    public PageResponse<Movie> search(KeywordStatusSearchParam param) {
+    public PageResponse<Movie> search(MovieSearchParam param) {
         Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
 
         PageRequest pageRequest = PageRequest.of(param.getPage(), param.getSize(), sort);
 
         Specification<Movie> query = (root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
+
+            if (Objects.nonNull(param.getHighlighted())) {
+                predicates.add(criteriaBuilder.equal(root.get("highlighted"), param.getHighlighted()));
+            }
+
+            if (StringUtils.hasText(param.getGenre())) {
+                Predicate searchPre = criteriaBuilder.or(criteriaBuilder.like(
+                        criteriaBuilder.lower(root.get("genre")),
+                        "%" + param.getKeyword().toLowerCase() + "%"));
+                predicates.add(searchPre);
+            }
 
             if (StringUtils.hasText(param.getKeyword())) {
                 Predicate searchPre = criteriaBuilder.or(criteriaBuilder.like(
@@ -106,5 +118,17 @@ public class MovieService {
         var movie = movieRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.MOVIE_NOT_FOUND));
         movie.setStatus(MovieStatus.COMING_SOON.name());
         movieRepository.save(movie);
+    }
+
+    public List<Movie> getHighLightedMovies() {
+        return movieRepository.findAllByHighlightedAndStatus(true, MovieStatus.NOW_SHOWING.name());
+    }
+
+    public List<Movie> getNowShowingMovies() {
+        return movieRepository.findAllByStatus(MovieStatus.NOW_SHOWING.name());
+    }
+
+    public List<Movie> getComingSoonMovies() {
+        return movieRepository.findAllByStatus(MovieStatus.COMING_SOON.name());
     }
 }

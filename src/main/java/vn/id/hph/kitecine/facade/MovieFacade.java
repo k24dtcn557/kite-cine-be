@@ -11,6 +11,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import vn.id.hph.kitecine.controller.param.KeywordStatusSearchParam;
 import vn.id.hph.kitecine.controller.param.MovieParam;
+import vn.id.hph.kitecine.controller.param.MovieSearchParam;
 import vn.id.hph.kitecine.controller.reponse.PageResponse;
 import vn.id.hph.kitecine.facade.dto.MovieDto;
 import vn.id.hph.kitecine.mapper.MovieMapper;
@@ -37,7 +38,7 @@ public class MovieFacade {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public PageResponse<MovieDto> searchMovies(KeywordStatusSearchParam param) {
+    public PageResponse<MovieDto> searchMovies(MovieSearchParam param) {
         var moviePageResponse = movieService.search(param);
         var movieDtos = movieMapper.toMovieDtoList(moviePageResponse.getData());
 
@@ -75,5 +76,20 @@ public class MovieFacade {
     @PreAuthorize("hasRole('ADMIN')")
     public void deactivateMovie(Long movieId) {
         movieService.deactivate(movieId);
+    }
+
+    public List<MovieDto> getHighLightedMovies() {
+        var movies = movieService.getHighLightedMovies();
+        return movieMapper.toMovieDtoList(movies);
+    }
+
+    public List<MovieDto> getNowShowingMovies() {
+        var movies = movieService.getNowShowingMovies();
+        return movieMapper.toMovieDtoList(movies);
+    }
+
+    public List<MovieDto> getComingSoonMovies() {
+        var movies = movieService.getComingSoonMovies();
+        return movieMapper.toMovieDtoList(movies);
     }
 }
