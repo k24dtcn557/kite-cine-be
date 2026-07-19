@@ -5,9 +5,12 @@ import java.time.LocalTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import lombok.AccessLevel;
@@ -43,30 +46,11 @@ public class ShowTime extends AbstractAuditEntity {
     @Column(name = "movie_id")
     Long movieId;
 
-    @Column(name = "description", columnDefinition = "TEXT")
-    String description;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "auditorium_id", nullable = false)
+    Auditorium auditorium;
 
-    @Column(name = "genre")
-    String genre;
-
-    @Column(name = "runtime")
-    Integer runtime;
-
-    @Column(name = "poster", length = 2000)
-    String poster;
-
-    @Column(name = "background", length = 2000)
-    String background;
-
-    @Column(name = "video", length = 2000)
-    String video;
-
-    @Column(name = "release_date")
-    LocalDate releaseDate;
-
-    @Column(name = "highlighted", columnDefinition = "BOOLEAN DEFAULT FALSE")
-    boolean highlighted;
-
-    @Column(name = "status")
-    String status;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "price_model_id", nullable = false)
+    PriceModel priceModel;
 }
