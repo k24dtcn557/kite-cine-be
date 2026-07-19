@@ -21,16 +21,14 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-    private final String[] PUBLIC_ENDPOINTS = {
-        "/movies/**", "/users", "/auth/token", "/auth/logout"
-    };
+    private final String[] PUBLIC_ENDPOINTS = {"/movies/**", "/users", "/auth/token", "/auth/logout"};
 
     @Autowired
     private CustomJwtDecoder customJwtDecoder;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers( PUBLIC_ENDPOINTS)
+        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(PUBLIC_ENDPOINTS)
                 .permitAll()
                 .requestMatchers(HttpMethod.OPTIONS)
                 .permitAll()

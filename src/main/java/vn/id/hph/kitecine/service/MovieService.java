@@ -123,8 +123,12 @@ public class MovieService {
         return movieRepository.findAllByHighlightedAndStatus(true, MovieStatus.NOW_SHOWING.name());
     }
 
-    public List<Movie> getNowShowingMovies() {
-        return movieRepository.findAllByStatus(MovieStatus.NOW_SHOWING.name());
+    public List<Movie> getNowShowingMovies(String genre) {
+        var pageResponse = search(MovieSearchParam.builder()
+                .genre(genre)
+                .status(MovieStatus.NOW_SHOWING.name())
+                .build());
+        return pageResponse.getData();
     }
 
     public List<Movie> getComingSoonMovies() {

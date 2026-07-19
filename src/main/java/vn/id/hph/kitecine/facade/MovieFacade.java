@@ -82,8 +82,8 @@ public class MovieFacade {
         return movieMapper.toMovieDtoList(movies);
     }
 
-    public List<MovieDto> getNowShowingMovies() {
-        var movies = movieService.getNowShowingMovies();
+    public List<MovieDto> getNowShowingMovies(String genre) {
+        var movies = movieService.getNowShowingMovies(genre);
         return movieMapper.toMovieDtoList(movies);
     }
 
