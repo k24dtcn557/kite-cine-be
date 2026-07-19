@@ -21,6 +21,7 @@ import vn.id.hph.kitecine.controller.param.ShowTimeSearchParam;
 import vn.id.hph.kitecine.controller.reponse.ApiResponse;
 import vn.id.hph.kitecine.controller.reponse.PageResponse;
 import vn.id.hph.kitecine.facade.ShowTimeFacade;
+import vn.id.hph.kitecine.facade.dto.CinemaShowTimeDto;
 import vn.id.hph.kitecine.facade.dto.ShowTimeDto;
 
 @RestController
@@ -38,9 +39,9 @@ public class ShowTimeManagementController {
     }
 
     @GetMapping("/show-times")
-    public ApiResponse<List<ShowTimeDto>> getShowTimes() {
-        return ApiResponse.<List<ShowTimeDto>>builder()
-                .result(showTimeFacade.getShowTimes())
+    public ApiResponse<List<CinemaShowTimeDto>> getShowTimes(@RequestParam Long movieId, @RequestParam LocalDate date) {
+        return ApiResponse.<List<CinemaShowTimeDto>>builder()
+                .result(showTimeFacade.getShowTimes(movieId, date))
                 .build();
     }
 

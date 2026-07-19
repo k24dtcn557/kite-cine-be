@@ -115,4 +115,8 @@ public class ShowTimeService {
                 ? showTimeRepository.findByAuditorium_IdAndDate(auditoriumId, date)
                 : showTimeRepository.findByAuditorium_Id(auditoriumId);
     }
+
+    public List<ShowTime> getByMovieIdAndDate(Long movieId, LocalDate date) {
+        return showTimeRepository.findByMovie_IdAndDate(movieId, date);
+    }
 }

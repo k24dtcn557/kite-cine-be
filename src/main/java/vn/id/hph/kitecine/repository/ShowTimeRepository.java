@@ -16,4 +16,6 @@ public interface ShowTimeRepository extends JpaRepository<ShowTime, Long>, JpaSp
     List<ShowTime> findByAuditorium_Id(Long auditoriumId);
 
     List<ShowTime> findByAuditorium_IdAndDate(Long auditoriumId, LocalDate date);
+
+    List<ShowTime> findByMovie_IdAndDate(Long auditoriumId, LocalDate date);
 }

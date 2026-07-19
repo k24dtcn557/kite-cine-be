@@ -8,6 +8,7 @@ import org.mapstruct.MappingTarget;
 
 import vn.id.hph.kitecine.controller.param.ShowTimeParam;
 import vn.id.hph.kitecine.entity.ShowTime;
+import vn.id.hph.kitecine.facade.dto.ShowTimeBriefDto;
 import vn.id.hph.kitecine.facade.dto.ShowTimeDto;
 
 @Mapper(componentModel = "spring")
@@ -19,6 +20,8 @@ public interface ShowTimeMapper {
     @Mapping(source = "movie.id", target = "movieId")
     @Mapping(source = "movie.title", target = "movieTitle")
     ShowTimeDto toShowTimeDto(ShowTime entity);
+
+    ShowTimeBriefDto toShowTimeBriefDto(ShowTime entity);
 
     void update(@MappingTarget ShowTime entity, ShowTimeParam param);
 
