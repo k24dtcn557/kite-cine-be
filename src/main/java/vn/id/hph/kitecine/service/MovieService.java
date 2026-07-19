@@ -64,7 +64,7 @@ public class MovieService {
             if (StringUtils.hasText(param.getGenre())) {
                 Predicate searchPre = criteriaBuilder.or(criteriaBuilder.like(
                         criteriaBuilder.lower(root.get("genre")),
-                        "%" + param.getKeyword().toLowerCase() + "%"));
+                        "%" + param.getGenre().toLowerCase() + "%"));
                 predicates.add(searchPre);
             }
 
