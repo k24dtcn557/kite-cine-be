@@ -11,7 +11,9 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import vn.id.hph.kitecine.controller.reponse.ApiResponse;
+import vn.id.hph.kitecine.facade.CrewMemberFacade;
 import vn.id.hph.kitecine.facade.MovieFacade;
+import vn.id.hph.kitecine.facade.dto.CrewMemberDto;
 import vn.id.hph.kitecine.facade.dto.MovieDto;
 
 @RestController
@@ -19,6 +21,7 @@ import vn.id.hph.kitecine.facade.dto.MovieDto;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class MovieController {
     MovieFacade movieFacade;
+    private final CrewMemberFacade crewMemberFacade;
 
     @GetMapping("/movies/highlighted")
     public ApiResponse<List<MovieDto>> getHighLightedMovies() {
@@ -44,5 +47,12 @@ public class MovieController {
     @GetMapping("/movies/{id}")
     public ApiResponse<MovieDto> getMovie(@PathVariable Long id) {
         return ApiResponse.<MovieDto>builder().result(movieFacade.getMovie(id)).build();
+    }
+
+    @GetMapping("/movies/{id}/crew-members")
+    public ApiResponse<List<CrewMemberDto>> getCrewMembers(@PathVariable Long id) {
+        return ApiResponse.<List<CrewMemberDto>>builder()
+                .result(crewMemberFacade.getMovieCrewMembers(id))
+                .build();
     }
 }

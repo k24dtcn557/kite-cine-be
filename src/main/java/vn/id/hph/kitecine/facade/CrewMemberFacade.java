@@ -85,4 +85,9 @@ public class CrewMemberFacade {
     public void deleteCrewMember(Long id) {
         crewMemberService.delete(id);
     }
+
+    public List<CrewMemberDto> getMovieCrewMembers(Long id) {
+        var list = crewMemberService.getByMovieId(id);
+        return crewMemberMapper.toCrewMemberDtoList(list);
+    }
 }

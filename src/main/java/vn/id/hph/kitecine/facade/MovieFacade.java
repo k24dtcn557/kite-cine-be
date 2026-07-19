@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import vn.id.hph.kitecine.controller.param.MovieParam;
 import vn.id.hph.kitecine.controller.param.MovieSearchParam;
 import vn.id.hph.kitecine.controller.reponse.PageResponse;
+import vn.id.hph.kitecine.facade.dto.CrewMemberDto;
 import vn.id.hph.kitecine.facade.dto.MovieDto;
 import vn.id.hph.kitecine.mapper.MovieMapper;
 import vn.id.hph.kitecine.service.MovieService;
@@ -90,5 +91,9 @@ public class MovieFacade {
     public List<MovieDto> getComingSoonMovies() {
         var movies = movieService.getComingSoonMovies();
         return movieMapper.toMovieDtoList(movies);
+    }
+
+    public List<CrewMemberDto> getCrewMembers(Long id) {
+        return null;
     }
 }

@@ -22,7 +22,8 @@ public enum ErrorCode {
     SEAT_ROW_ALREADY_EXISTED(2004, "Hàng ghế {0} đã tồn tại", HttpStatus.BAD_REQUEST),
     MOVIE_NOT_FOUND(2005, "Không tìm thấy thông tin phim", HttpStatus.NOT_FOUND),
     CREW_PERSON_NOT_FOUND(2006, "Không tìm thấy thông tin nhân sự", HttpStatus.NOT_FOUND),
-    CREW_MEMBER_NOT_FOUND(2007, "Không tìm thấy thông tin thành viên đoàn phim", HttpStatus.NOT_FOUND);
+    CREW_MEMBER_NOT_FOUND(2007, "Không tìm thấy thông tin thành viên đoàn phim", HttpStatus.NOT_FOUND),
+    PRICE_MODEL_NOT_FOUND(2008, "Không tìm thấy thông tin price model", HttpStatus.NOT_FOUND);
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

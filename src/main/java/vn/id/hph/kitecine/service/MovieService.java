@@ -19,6 +19,7 @@ import lombok.experimental.FieldDefaults;
 import vn.id.hph.kitecine.controller.param.MovieParam;
 import vn.id.hph.kitecine.controller.param.MovieSearchParam;
 import vn.id.hph.kitecine.controller.reponse.PageResponse;
+import vn.id.hph.kitecine.entity.CrewMember;
 import vn.id.hph.kitecine.entity.Movie;
 import vn.id.hph.kitecine.enums.MovieStatus;
 import vn.id.hph.kitecine.exception.AppException;
@@ -135,5 +136,9 @@ public class MovieService {
 
     public List<Movie> getComingSoonMovies() {
         return movieRepository.findAllByStatus(MovieStatus.COMING_SOON.name());
+    }
+
+    public List<CrewMember> getCrewMembers(Long id) {
+        return null;
     }
 }
