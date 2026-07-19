@@ -1,5 +1,6 @@
 package vn.id.hph.kitecine.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +14,6 @@ public interface ShowTimeRepository extends JpaRepository<ShowTime, Long>, JpaSp
     List<ShowTime> findAllByOrderByIdDesc();
 
     List<ShowTime> findByAuditorium_Id(Long auditoriumId);
+
+    List<ShowTime> findByAuditorium_IdAndDate(Long auditoriumId, LocalDate date);
 }

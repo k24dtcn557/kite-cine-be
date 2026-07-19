@@ -1,5 +1,6 @@
 package vn.id.hph.kitecine.facade;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,10 +14,12 @@ import vn.id.hph.kitecine.controller.param.ShowTimeParam;
 import vn.id.hph.kitecine.controller.param.ShowTimeSearchParam;
 import vn.id.hph.kitecine.controller.reponse.PageResponse;
 import vn.id.hph.kitecine.entity.Auditorium;
+import vn.id.hph.kitecine.entity.Movie;
 import vn.id.hph.kitecine.entity.PriceModel;
 import vn.id.hph.kitecine.facade.dto.ShowTimeDto;
 import vn.id.hph.kitecine.mapper.ShowTimeMapper;
 import vn.id.hph.kitecine.service.AuditoriumService;
+import vn.id.hph.kitecine.service.MovieService;
 import vn.id.hph.kitecine.service.PriceModelService;
 import vn.id.hph.kitecine.service.ShowTimeService;
 
@@ -28,6 +31,7 @@ public class ShowTimeFacade {
     ShowTimeService showTimeService;
     AuditoriumService auditoriumService;
     PriceModelService priceModelService;
+    MovieService movieService;
 
     ShowTimeMapper showTimeMapper;
 
@@ -35,8 +39,9 @@ public class ShowTimeFacade {
     public ShowTimeDto createShowTime(ShowTimeParam param) {
         Auditorium auditorium = auditoriumService.get(param.auditoriumId());
         PriceModel priceModel = priceModelService.get(param.priceModelId());
+        Movie movie = movieService.get(param.movieId());
 
-        var entity = showTimeService.create(auditorium, priceModel, param);
+        var entity = showTimeService.create(movie, auditorium, priceModel, param);
         return showTimeMapper.toShowTimeDto(entity);
     }
 
@@ -47,8 +52,8 @@ public class ShowTimeFacade {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public List<ShowTimeDto> getShowTimesByAuditorium(Long auditoriumId) {
-        var list = showTimeService.getByAuditoriumId(auditoriumId);
+    public List<ShowTimeDto> getShowTimesByAuditorium(Long auditoriumId, LocalDate date) {
+        var list = showTimeService.getByAuditoriumId(auditoriumId, date);
         return showTimeMapper.toShowTimeDtoList(list);
     }
 
@@ -70,8 +75,9 @@ public class ShowTimeFacade {
     public ShowTimeDto updateShowTime(Long id, ShowTimeParam param) {
         Auditorium auditorium = auditoriumService.get(param.auditoriumId());
         PriceModel priceModel = priceModelService.get(param.priceModelId());
+        Movie movie = movieService.get(param.movieId());
 
-        var entity = showTimeService.update(id, auditorium, priceModel, param);
+        var entity = showTimeService.update(id, movie, auditorium, priceModel, param);
         return showTimeMapper.toShowTimeDto(entity);
     }
 

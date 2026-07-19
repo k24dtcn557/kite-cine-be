@@ -1,5 +1,7 @@
 package vn.id.hph.kitecine.service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -20,6 +22,7 @@ import vn.id.hph.kitecine.controller.param.ShowTimeParam;
 import vn.id.hph.kitecine.controller.param.ShowTimeSearchParam;
 import vn.id.hph.kitecine.controller.reponse.PageResponse;
 import vn.id.hph.kitecine.entity.Auditorium;
+import vn.id.hph.kitecine.entity.Movie;
 import vn.id.hph.kitecine.entity.PriceModel;
 import vn.id.hph.kitecine.entity.ShowTime;
 import vn.id.hph.kitecine.exception.AppException;
@@ -34,20 +37,26 @@ public class ShowTimeService {
     ShowTimeRepository showTimeRepository;
     ShowTimeMapper showTimeMapper;
 
-    public ShowTime create(Auditorium auditorium, PriceModel priceModel, ShowTimeParam param) {
+    public ShowTime create(Movie movie, Auditorium auditorium, PriceModel priceModel, ShowTimeParam param) {
         var entity = showTimeMapper.toShowTime(param);
         entity.setAuditorium(auditorium);
         entity.setPriceModel(priceModel);
-        entity.setMovieId(param.movieId());
+        entity.setMovie(movie);
+
+        LocalTime entityTime = param.startTime().plusMinutes(movie.getRuntime());
+        entity.setEndTime(entityTime);
+
         return showTimeRepository.save(entity);
     }
 
-    public ShowTime update(Long id, Auditorium auditorium, PriceModel priceModel, ShowTimeParam param) {
+    public ShowTime update(Long id, Movie movie, Auditorium auditorium, PriceModel priceModel, ShowTimeParam param) {
         var entity = showTimeRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.SHOW_TIME_NOT_FOUND));
         showTimeMapper.update(entity, param);
         entity.setAuditorium(auditorium);
         entity.setPriceModel(priceModel);
-        entity.setMovieId(param.movieId());
+        entity.setMovie(movie);
+        LocalTime entityTime = param.startTime().plusMinutes(movie.getRuntime());
+        entity.setEndTime(entityTime);
         return showTimeRepository.save(entity);
     }
 
@@ -101,7 +110,9 @@ public class ShowTimeService {
         showTimeRepository.delete(entity);
     }
 
-    public List<ShowTime> getByAuditoriumId(Long auditoriumId) {
-        return showTimeRepository.findByAuditorium_Id(auditoriumId);
+    public List<ShowTime> getByAuditoriumId(Long auditoriumId, LocalDate date) {
+        return Objects.nonNull(date)
+                ? showTimeRepository.findByAuditorium_IdAndDate(auditoriumId, date)
+                : showTimeRepository.findByAuditorium_Id(auditoriumId);
     }
 }

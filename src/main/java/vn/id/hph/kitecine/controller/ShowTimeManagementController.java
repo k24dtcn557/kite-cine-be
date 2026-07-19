@@ -1,5 +1,6 @@
 package vn.id.hph.kitecine.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AccessLevel;
@@ -43,9 +45,10 @@ public class ShowTimeManagementController {
     }
 
     @GetMapping("/auditoriums/{auditoriumId}/show-times")
-    public ApiResponse<List<ShowTimeDto>> getShowTimesByAuditorium(@PathVariable Long auditoriumId) {
+    public ApiResponse<List<ShowTimeDto>> getShowTimesByAuditorium(
+            @PathVariable Long auditoriumId, @RequestParam(required = false) LocalDate date) {
         return ApiResponse.<List<ShowTimeDto>>builder()
-                .result(showTimeFacade.getShowTimesByAuditorium(auditoriumId))
+                .result(showTimeFacade.getShowTimesByAuditorium(auditoriumId, date))
                 .build();
     }
 

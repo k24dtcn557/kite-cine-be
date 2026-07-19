@@ -12,11 +12,12 @@ import vn.id.hph.kitecine.facade.dto.ShowTimeDto;
 
 @Mapper(componentModel = "spring")
 public interface ShowTimeMapper {
-    @Mapping(source = "movieId", target = "movieId")
     ShowTime toShowTime(ShowTimeParam param);
 
     @Mapping(source = "auditorium.id", target = "auditoriumId")
     @Mapping(source = "priceModel.id", target = "priceModelId")
+    @Mapping(source = "movie.id", target = "movieId")
+    @Mapping(source = "movie.title", target = "movieTitle")
     ShowTimeDto toShowTimeDto(ShowTime entity);
 
     void update(@MappingTarget ShowTime entity, ShowTimeParam param);

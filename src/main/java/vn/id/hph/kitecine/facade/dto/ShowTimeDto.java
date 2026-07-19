@@ -9,6 +9,7 @@ public record ShowTimeDto(
         LocalDate date,
         LocalTime startTime,
         LocalTime endTime,
+        String movieTitle,
         long movieId,
         long auditoriumId,
         long priceModelId,
