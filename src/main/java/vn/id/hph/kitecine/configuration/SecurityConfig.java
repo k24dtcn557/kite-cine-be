@@ -21,7 +21,9 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-    private final String[] PUBLIC_ENDPOINTS = {"/movies/highlighted", "/users", "/auth/token", "/auth/logout"};
+    private final String[] PUBLIC_ENDPOINTS = {
+        "/movies/highlighted", "/movies/now-showing", "/movies/coming-soon", "/users", "/auth/token", "/auth/logout"
+    };
 
     @Autowired
     private CustomJwtDecoder customJwtDecoder;
