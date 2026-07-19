@@ -9,7 +9,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import vn.id.hph.kitecine.controller.param.KeywordStatusSearchParam;
 import vn.id.hph.kitecine.controller.param.MovieParam;
 import vn.id.hph.kitecine.controller.param.MovieSearchParam;
 import vn.id.hph.kitecine.controller.reponse.PageResponse;
