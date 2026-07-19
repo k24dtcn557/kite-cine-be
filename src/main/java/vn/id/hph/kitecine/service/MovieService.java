@@ -127,6 +127,8 @@ public class MovieService {
         var pageResponse = search(MovieSearchParam.builder()
                 .genre(genre)
                 .status(MovieStatus.NOW_SHOWING.name())
+                .page(0)
+                .size(Integer.MAX_VALUE)
                 .build());
         return pageResponse.getData();
     }
