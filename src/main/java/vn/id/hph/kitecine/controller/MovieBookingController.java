@@ -1,5 +1,6 @@
 package vn.id.hph.kitecine.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,15 +14,18 @@ import lombok.experimental.FieldDefaults;
 import vn.id.hph.kitecine.controller.reponse.ApiResponse;
 import vn.id.hph.kitecine.facade.CrewMemberFacade;
 import vn.id.hph.kitecine.facade.MovieFacade;
+import vn.id.hph.kitecine.facade.ShowTimeFacade;
+import vn.id.hph.kitecine.facade.dto.CinemaShowTimeDto;
 import vn.id.hph.kitecine.facade.dto.CrewMemberDto;
 import vn.id.hph.kitecine.facade.dto.MovieDto;
 
 @RestController
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class MovieController {
+public class MovieBookingController {
+    ShowTimeFacade showTimeFacade;
     MovieFacade movieFacade;
-    private final CrewMemberFacade crewMemberFacade;
+    CrewMemberFacade crewMemberFacade;
 
     @GetMapping("/movies/highlighted")
     public ApiResponse<List<MovieDto>> getHighLightedMovies() {
@@ -47,6 +51,13 @@ public class MovieController {
     @GetMapping("/movies/{id}")
     public ApiResponse<MovieDto> getMovie(@PathVariable Long id) {
         return ApiResponse.<MovieDto>builder().result(movieFacade.getMovie(id)).build();
+    }
+
+    @GetMapping("/movies/{id}/show-times")
+    public ApiResponse<List<CinemaShowTimeDto>> getMovieShowTime(@PathVariable Long id, LocalDate date) {
+        return ApiResponse.<List<CinemaShowTimeDto>>builder()
+                .result(showTimeFacade.getMovieShowTimes(id, date))
+                .build();
     }
 
     @GetMapping("/movies/{id}/crew-members")

@@ -139,4 +139,50 @@ public class ShowTimeFacade {
         var entity = showTimeService.get(id);
         return showTimeMapper.toShowTimeDto(entity);
     }
+
+    public List<CinemaShowTimeDto> getMovieShowTimes(Long id, LocalDate date) {
+        var showTimes = showTimeService.getByMovieIdAndDate(id, date);
+
+        var cinemas = cinemaService.getAll();
+        var auditoriums = auditoriumService.getAll();
+
+        List<CinemaShowTimeDto> returnList = new ArrayList<>();
+        for (Cinema cinema : cinemas) {
+            CinemaShowTimeDto cinemaShowTimeDto = new CinemaShowTimeDto();
+            cinemaShowTimeDto.setId(cinema.getId());
+            cinemaShowTimeDto.setName(cinema.getName());
+            cinemaShowTimeDto.setAddress(cinema.getAddress());
+
+            List<AuditoriumShowTimeDto> auditoriumDtos = new ArrayList<>();
+            for (Auditorium auditorium : auditoriums) {
+                if (auditorium.getCinema().getId().equals(cinema.getId())) {
+                    AuditoriumShowTimeDto auditoriumShowTimeDto = new AuditoriumShowTimeDto();
+                    auditoriumShowTimeDto.setId(auditorium.getId());
+                    auditoriumShowTimeDto.setName(auditorium.getName());
+
+                    List<ShowTimeBriefDto> showTimeDtos = new ArrayList<>();
+                    for (var showTime : showTimes) {
+                        if (showTime.getAuditorium().getId().equals(auditorium.getId())) {
+                            ShowTimeBriefDto showTimeDto = showTimeMapper.toShowTimeBriefDto(showTime);
+                            showTimeDtos.add(showTimeDto);
+                        }
+                    }
+                    auditoriumShowTimeDto.setShowTimes(showTimeDtos);
+                    auditoriumDtos.add(auditoriumShowTimeDto);
+
+                    // Remove the show times for this auditorium from the list to avoid processing them again
+                    showTimes.removeIf(
+                            showTime -> showTime.getAuditorium().getId().equals(auditorium.getId()));
+                }
+            }
+
+            cinemaShowTimeDto.setAuditoriums(auditoriumDtos);
+            returnList.add(cinemaShowTimeDto);
+
+            // Remove the auditoriums for this cinema from the list to avoid processing them again
+            auditoriums.removeIf(auditorium -> auditorium.getCinema().getId().equals(cinema.getId()));
+        }
+
+        return returnList;
+    }
 }
