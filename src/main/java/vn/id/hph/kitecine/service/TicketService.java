@@ -1,5 +1,6 @@
 package vn.id.hph.kitecine.service;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ import vn.id.hph.kitecine.controller.reponse.PageResponse;
 import vn.id.hph.kitecine.entity.Seat;
 import vn.id.hph.kitecine.entity.ShowTime;
 import vn.id.hph.kitecine.entity.Ticket;
+import vn.id.hph.kitecine.enums.SeatType;
 import vn.id.hph.kitecine.enums.TicketStatus;
 import vn.id.hph.kitecine.exception.AppException;
 import vn.id.hph.kitecine.exception.ErrorCode;
@@ -50,8 +52,13 @@ public class TicketService {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         var ticket = ticketMapper.toTicket(param);
 
+        String seatType = seat.getSeatType();
+        BigDecimal price =
+                showTime.getPriceModel().getPrices().getOrDefault(SeatType.valueOf(seatType), BigDecimal.ZERO);
+
         ticket.setShowtime(showTime);
         ticket.setSeat(seat);
+        ticket.setPurchasePrice(price);
         ticket.setExpirationTime(Instant.now().plusSeconds(reservedTime * 60));
         ticket.setBuyerId(userId);
         ticket.setQrCode(CommonUtils.generateTicketCode());
