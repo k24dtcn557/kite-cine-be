@@ -27,7 +27,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "show_time")
+@Table(name = "ticket")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Ticket extends AbstractAuditEntity {
     @Id
