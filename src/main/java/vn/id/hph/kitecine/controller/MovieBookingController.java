@@ -17,12 +17,14 @@ import lombok.experimental.FieldDefaults;
 import vn.id.hph.kitecine.controller.param.TicketParam;
 import vn.id.hph.kitecine.controller.reponse.ApiResponse;
 import vn.id.hph.kitecine.facade.BookingFacade;
+import vn.id.hph.kitecine.facade.CinemaFacade;
 import vn.id.hph.kitecine.facade.CrewMemberFacade;
 import vn.id.hph.kitecine.facade.MovieFacade;
 import vn.id.hph.kitecine.facade.ShowTimeFacade;
 import vn.id.hph.kitecine.facade.dto.CinemaShowTimeDto;
 import vn.id.hph.kitecine.facade.dto.CrewMemberDto;
 import vn.id.hph.kitecine.facade.dto.MovieDto;
+import vn.id.hph.kitecine.facade.dto.SeatRowDto;
 import vn.id.hph.kitecine.facade.dto.TicketDto;
 import vn.id.hph.kitecine.mapper.TicketMapper;
 
@@ -31,6 +33,7 @@ import vn.id.hph.kitecine.mapper.TicketMapper;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class MovieBookingController {
     ShowTimeFacade showTimeFacade;
+    CinemaFacade cinemaFacade;
     MovieFacade movieFacade;
     CrewMemberFacade crewMemberFacade;
     BookingFacade bookingFacade;
@@ -74,6 +77,13 @@ public class MovieBookingController {
     public ApiResponse<List<CrewMemberDto>> getCrewMembers(@PathVariable Long id) {
         return ApiResponse.<List<CrewMemberDto>>builder()
                 .result(crewMemberFacade.getMovieCrewMembers(id))
+                .build();
+    }
+
+    @GetMapping("/auditoriums/{id}/seats")
+    public ApiResponse<List<SeatRowDto>> getSeats(@PathVariable Long id) {
+        return ApiResponse.<List<SeatRowDto>>builder()
+                .result(cinemaFacade.getAuditoriumSeats(id))
                 .build();
     }
 
