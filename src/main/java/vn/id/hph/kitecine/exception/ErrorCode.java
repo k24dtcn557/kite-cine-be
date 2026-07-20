@@ -19,12 +19,13 @@ public enum ErrorCode {
     CINEMA_NOT_FOUND(2001, "Không tìm thấy thông tin rạp", HttpStatus.NOT_FOUND),
     AUDITORIUM_NOT_FOUND(2002, "Không tìm thấy thông tin phòng chiếu", HttpStatus.NOT_FOUND),
     SEAT_NOT_FOUND(2003, "Không tìm thấy thông tin ghế", HttpStatus.NOT_FOUND),
-    SEAT_ROW_ALREADY_EXISTED(2004, "Hàng ghế {0} đã tồn tại", HttpStatus.BAD_REQUEST),
+    SEAT_ROW_ALREADY_EXISTED(2004, "Hàng ghế này đã tồn tại", HttpStatus.BAD_REQUEST),
     MOVIE_NOT_FOUND(2005, "Không tìm thấy thông tin phim", HttpStatus.NOT_FOUND),
     CREW_PERSON_NOT_FOUND(2006, "Không tìm thấy thông tin nhân sự", HttpStatus.NOT_FOUND),
     CREW_MEMBER_NOT_FOUND(2007, "Không tìm thấy thông tin thành viên đoàn phim", HttpStatus.NOT_FOUND),
     PRICE_MODEL_NOT_FOUND(2008, "Không tìm thấy thông tin price model", HttpStatus.NOT_FOUND),
-    SHOW_TIME_NOT_FOUND(2009, "Không tìm thấy thông tin suất chiếu", HttpStatus.NOT_FOUND);
+    SHOW_TIME_NOT_FOUND(2009, "Không tìm thấy thông tin suất chiếu", HttpStatus.NOT_FOUND),
+    TICKET_NOT_FOUND(2010, "Không tìm thấy thông tin vé", HttpStatus.NOT_FOUND);
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
