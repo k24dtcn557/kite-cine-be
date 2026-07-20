@@ -68,6 +68,11 @@ public class MovieFacade {
         return movieMapper.toMovieDto(movie);
     }
 
+    public MovieDto viewMovie(Long movieId) {
+        var movie = movieService.get(movieId);
+        return movieMapper.toMovieDto(movie);
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     public void activateMovie(Long movieId) {
         movieService.activate(movieId);
