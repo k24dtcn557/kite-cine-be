@@ -61,7 +61,7 @@ public class MovieBookingController {
                 .build();
     }
 
-    @GetMapping("/movies/{id}")
+    @GetMapping("/movies/{id}/detail")
     public ApiResponse<MovieDto> getMovie(@PathVariable Long id) {
         return ApiResponse.<MovieDto>builder().result(movieFacade.getMovie(id)).build();
     }
