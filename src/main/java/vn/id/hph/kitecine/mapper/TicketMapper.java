@@ -17,6 +17,8 @@ public interface TicketMapper {
     @Mapping(target = "rowLetter", source = "seat.rowLetter")
     @Mapping(target = "seatNumber", source = "seat.seatNumber")
     @Mapping(target = "seatType", source = "seat.seatType")
+    @Mapping(target = "showtimeId", source = "showtime.id")
+    @Mapping(target = "seatId", source = "seat.id")
     TicketDto toTicketDto(Ticket entity);
 
     void update(@MappingTarget Ticket entity, TicketParam param);
