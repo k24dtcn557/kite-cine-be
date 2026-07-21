@@ -25,6 +25,7 @@ import vn.id.hph.kitecine.facade.ShowTimeFacade;
 import vn.id.hph.kitecine.facade.dto.CinemaShowTimeDto;
 import vn.id.hph.kitecine.facade.dto.CrewMemberDto;
 import vn.id.hph.kitecine.facade.dto.MovieDto;
+import vn.id.hph.kitecine.facade.dto.PurchaseDetailDto;
 import vn.id.hph.kitecine.facade.dto.PurchaseDto;
 import vn.id.hph.kitecine.facade.dto.SeatRowDto;
 import vn.id.hph.kitecine.facade.dto.TicketDto;
@@ -138,8 +139,8 @@ public class MovieBookingController {
     }
 
     @PostMapping("/booking/{code}/pay")
-    public ApiResponse<PurchaseDto> payBooking(@PathVariable String code) {
-        return ApiResponse.<PurchaseDto>builder()
+    public ApiResponse<PurchaseDetailDto> payBooking(@PathVariable String code) {
+        return ApiResponse.<PurchaseDetailDto>builder()
                 .result(bookingFacade.payBooking(code))
                 .build();
     }

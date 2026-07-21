@@ -16,6 +16,7 @@ import vn.id.hph.kitecine.controller.param.TicketParam;
 import vn.id.hph.kitecine.entity.Ticket;
 import vn.id.hph.kitecine.exception.AppException;
 import vn.id.hph.kitecine.exception.ErrorCode;
+import vn.id.hph.kitecine.facade.dto.PurchaseDetailDto;
 import vn.id.hph.kitecine.facade.dto.PurchaseDto;
 import vn.id.hph.kitecine.facade.dto.TicketDto;
 import vn.id.hph.kitecine.mapper.PurchaseMapper;
@@ -92,7 +93,7 @@ public class BookingFacade {
     }
 
     @Transactional
-    public PurchaseDto payBooking(String code) {
+    public PurchaseDetailDto payBooking(String code) {
         var purchase = purchaseService.get(code);
         var tickets = ticketService.getHoldingsPurchaseId(purchase.getId());
         if (tickets.isEmpty()) {
@@ -100,8 +101,11 @@ public class BookingFacade {
         }
 
         purchase = purchaseService.pay(purchase);
-        ticketService.pay(tickets);
+        tickets = ticketService.pay(tickets);
 
-        return purchaseMapper.toPurchaseDto(purchase);
+        var purchaseDto = purchaseMapper.toPurchaseDetailDto(purchase);
+        purchaseDto.setTickets(ticketMapper.toTicketDtoList(tickets));
+
+        return purchaseDto;
     }
 }
