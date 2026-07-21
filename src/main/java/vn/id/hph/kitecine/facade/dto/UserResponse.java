@@ -1,6 +1,6 @@
 package vn.id.hph.kitecine.facade.dto;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.Set;
 
 import lombok.*;
@@ -14,8 +14,10 @@ import lombok.experimental.FieldDefaults;
 public class UserResponse {
     String id;
     String username;
-    String firstName;
-    String lastName;
-    LocalDate dob;
+    String fullName;
+    String avatar;
+    String email;
+    Instant createdAt;
+    Instant updatedAt;
     Set<RoleResponse> roles;
 }

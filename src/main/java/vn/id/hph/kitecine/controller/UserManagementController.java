@@ -2,15 +2,12 @@ package vn.id.hph.kitecine.controller;
 
 import java.util.List;
 
-import jakarta.validation.Valid;
-
 import org.springframework.web.bind.annotation.*;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import vn.id.hph.kitecine.controller.param.UserCreationRequest;
 import vn.id.hph.kitecine.controller.param.UserUpdateRequest;
 import vn.id.hph.kitecine.controller.reponse.ApiResponse;
 import vn.id.hph.kitecine.facade.dto.UserResponse;
@@ -21,15 +18,8 @@ import vn.id.hph.kitecine.service.UserService;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
-public class UserController {
+public class UserManagementController {
     UserService userService;
-
-    @PostMapping("/register")
-    ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
-        return ApiResponse.<UserResponse>builder()
-                .result(userService.createUser(request))
-                .build();
-    }
 
     @GetMapping
     ApiResponse<List<UserResponse>> getUsers() {
@@ -42,13 +32,6 @@ public class UserController {
     ApiResponse<UserResponse> getUser(@PathVariable("userId") String userId) {
         return ApiResponse.<UserResponse>builder()
                 .result(userService.getUser(userId))
-                .build();
-    }
-
-    @GetMapping("/my-info")
-    ApiResponse<UserResponse> getMyInfo() {
-        return ApiResponse.<UserResponse>builder()
-                .result(userService.getMyInfo())
                 .build();
     }
 
