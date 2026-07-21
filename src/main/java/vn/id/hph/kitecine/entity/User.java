@@ -1,6 +1,5 @@
 package vn.id.hph.kitecine.entity;
 
-import java.time.LocalDate;
 import java.util.Set;
 
 import jakarta.persistence.*;
@@ -29,9 +28,6 @@ public class User {
 
     @Column(name = "full_name")
     String fullName;
-
-    @Column(name = "dob")
-    LocalDate dob;
 
     @Column(name = "email")
     String email;
