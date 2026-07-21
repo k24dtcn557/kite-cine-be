@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import vn.id.hph.kitecine.controller.param.PurchaseParam;
 import vn.id.hph.kitecine.controller.param.TicketParam;
 import vn.id.hph.kitecine.controller.reponse.ApiResponse;
 import vn.id.hph.kitecine.facade.BookingFacade;
@@ -24,6 +25,7 @@ import vn.id.hph.kitecine.facade.ShowTimeFacade;
 import vn.id.hph.kitecine.facade.dto.CinemaShowTimeDto;
 import vn.id.hph.kitecine.facade.dto.CrewMemberDto;
 import vn.id.hph.kitecine.facade.dto.MovieDto;
+import vn.id.hph.kitecine.facade.dto.PurchaseDto;
 import vn.id.hph.kitecine.facade.dto.SeatRowDto;
 import vn.id.hph.kitecine.facade.dto.TicketDto;
 import vn.id.hph.kitecine.mapper.TicketMapper;
@@ -125,6 +127,20 @@ public class MovieBookingController {
     public ApiResponse<List<TicketDto>> getMyHoldings(@PathVariable Long showtimeId) {
         return ApiResponse.<List<TicketDto>>builder()
                 .result(bookingFacade.getMyHoldings(showtimeId))
+                .build();
+    }
+
+    @PostMapping("/booking/initialize")
+    public ApiResponse<PurchaseDto> initializeBooking(@RequestBody PurchaseParam param) {
+        return ApiResponse.<PurchaseDto>builder()
+                .result(bookingFacade.initializeBooking(param))
+                .build();
+    }
+
+    @PostMapping("/booking/{code}/pay")
+    public ApiResponse<PurchaseDto> payBooking(@PathVariable String code) {
+        return ApiResponse.<PurchaseDto>builder()
+                .result(bookingFacade.payBooking(code))
                 .build();
     }
 }

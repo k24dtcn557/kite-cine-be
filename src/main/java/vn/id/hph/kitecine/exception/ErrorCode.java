@@ -25,7 +25,9 @@ public enum ErrorCode {
     CREW_MEMBER_NOT_FOUND(2007, "Không tìm thấy thông tin thành viên đoàn phim", HttpStatus.NOT_FOUND),
     PRICE_MODEL_NOT_FOUND(2008, "Không tìm thấy thông tin price model", HttpStatus.NOT_FOUND),
     SHOW_TIME_NOT_FOUND(2009, "Không tìm thấy thông tin suất chiếu", HttpStatus.NOT_FOUND),
-    TICKET_NOT_FOUND(2010, "Không tìm thấy thông tin vé", HttpStatus.NOT_FOUND);
+    TICKET_NOT_FOUND(2010, "Không tìm thấy thông tin vé", HttpStatus.NOT_FOUND),
+    TICKET_EXPIRED(2011, "Vé đã hết hạn giữ, vui lòng chọn lại", HttpStatus.BAD_REQUEST),
+    PURCHASE_NOT_FOUND(2012, "Không tìm thấy thông tin đơn hàng", HttpStatus.NOT_FOUND);
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

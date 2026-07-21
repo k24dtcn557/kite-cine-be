@@ -24,6 +24,7 @@ import vn.id.hph.kitecine.configuration.CommonUtils;
 import vn.id.hph.kitecine.controller.param.TicketParam;
 import vn.id.hph.kitecine.controller.param.TicketSearchParam;
 import vn.id.hph.kitecine.controller.reponse.PageResponse;
+import vn.id.hph.kitecine.entity.Purchase;
 import vn.id.hph.kitecine.entity.Seat;
 import vn.id.hph.kitecine.entity.ShowTime;
 import vn.id.hph.kitecine.entity.Ticket;
@@ -147,10 +148,6 @@ public class TicketService {
                 showtimeId, List.of(TicketStatus.HOLD.name(), TicketStatus.CONFIRMED.name()));
     }
 
-    public List<Ticket> getBySeatId(Long seatId) {
-        return ticketRepository.findBySeat_Id(seatId);
-    }
-
     public List<Ticket> getMyHoldings(long showTimeId) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         return ticketRepository.findByShowtime_IdAndBuyerIdAndStatusIn(
@@ -161,5 +158,30 @@ public class TicketService {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         return ticketRepository.findByBuyerIdAndStatusIn(
                 userId, List.of(TicketStatus.CANCELLED.name(), TicketStatus.CONFIRMED.name()));
+    }
+
+    public List<Ticket> getHoldingsByIds(List<Long> ids) {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ticketRepository.findByBuyerIdAndStatusAndIdIn(userId, TicketStatus.HOLD.name(), ids);
+    }
+
+    public List<Ticket> initializePurchase(Purchase purchase, List<Ticket> tickets) {
+        for (Ticket ticket : tickets) {
+            ticket.setExpirationTime(purchase.getExpirationTime());
+            ticket.setPurchase(purchase);
+        }
+
+        return ticketRepository.saveAll(tickets);
+    }
+
+    public List<Ticket> getHoldingsPurchaseId(Long purchaseId) {
+        return ticketRepository.findByPurchase_IdAndStatus(purchaseId, TicketStatus.HOLD.name());
+    }
+
+    public void pay(List<Ticket> tickets) {
+        for (Ticket ticket : tickets) {
+            ticket.setStatus(TicketStatus.CONFIRMED.name());
+        }
+        ticketRepository.saveAll(tickets);
     }
 }
