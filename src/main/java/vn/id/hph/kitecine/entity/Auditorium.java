@@ -37,7 +37,7 @@ public class Auditorium extends AbstractAuditEntity {
     @Column(name = "type")
     String type;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cinema_id", nullable = false)
     Cinema cinema;
 
