@@ -129,4 +129,14 @@ public class BookingFacade {
                 })
                 .toList();
     }
+
+    public PurchaseWithShowTimeDto getByCode(String code) {
+        var purchase = purchaseService.get(code);
+        var purchaseDto = purchaseMapper.toPurchaseWithShowTimeDto(purchase);
+
+        var tickets = ticketService.getByPurchaseId(purchase.getId());
+        purchaseDto.setTickets(ticketMapper.toTicketDtoList(tickets));
+
+        return purchaseDto;
+    }
 }

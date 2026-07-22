@@ -159,4 +159,11 @@ public class MovieBookingController {
                 .result(bookingFacade.getUpcomingShowTimes())
                 .build();
     }
+
+    @GetMapping("/booking/{code}")
+    public ApiResponse<PurchaseWithShowTimeDto> getBooking(@PathVariable String code) {
+        return ApiResponse.<PurchaseWithShowTimeDto>builder()
+                .result(bookingFacade.getByCode(code))
+                .build();
+    }
 }
