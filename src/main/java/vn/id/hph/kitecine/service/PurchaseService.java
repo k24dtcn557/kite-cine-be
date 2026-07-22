@@ -2,7 +2,14 @@ package vn.id.hph.kitecine.service;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 
+import jakarta.persistence.criteria.Predicate;
+
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -49,5 +56,22 @@ public class PurchaseService {
     public Purchase pay(Purchase purchase) {
         purchase.setStatus(PurchaseStatus.PAID.name());
         return purchaseRepository.save(purchase);
+    }
+
+    public List<Purchase> getUpComingBookings() {
+        LocalDate today = Instant.now().atZone(ZoneId.of("Asia/Ho_Chi_Minh")).toLocalDate();
+
+        Specification<Purchase> query = (root, criteriaQuery, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            predicates.add(
+                    criteriaBuilder.greaterThanOrEqualTo(root.get("showtime").get("date"), today));
+
+            criteriaQuery.orderBy(criteriaBuilder.desc(root.get("createdAt")));
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
+
+        return purchaseRepository.findAll(query);
     }
 }
