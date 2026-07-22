@@ -123,7 +123,7 @@ public class BookingFacade {
                 .map(purchase -> {
                     var purchaseDto = purchaseMapper.toPurchaseWithShowTimeDto(purchase);
 
-                    var tickets = ticketService.getHoldingsPurchaseId(purchase.getId());
+                    var tickets = ticketService.getByPurchaseId(purchase.getId());
                     purchaseDto.setTickets(ticketMapper.toTicketDtoList(tickets));
                     purchaseDto.setShowTime(showTimeMapper.toShowTimeDetailDto(purchase.getShowtime()));
                     return purchaseDto;

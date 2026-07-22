@@ -178,6 +178,10 @@ public class TicketService {
         return ticketRepository.findByPurchase_IdAndStatus(purchaseId, TicketStatus.HOLD.name());
     }
 
+    public List<Ticket> getByPurchaseId(Long purchaseId) {
+        return ticketRepository.findByPurchase_Id(purchaseId);
+    }
+
     public List<Ticket> pay(List<Ticket> tickets) {
         for (Ticket ticket : tickets) {
             ticket.setStatus(TicketStatus.CONFIRMED.name());

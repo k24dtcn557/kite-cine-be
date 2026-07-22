@@ -9,6 +9,6 @@ public record ShowTimeDetailDto(
         LocalDate date,
         LocalTime startTime,
         MovieDto movie,
-        AuditoriumDto auditorium,
+        AuditoriumDetailDto auditorium,
         Instant createdAt,
         Instant updatedAt) {}

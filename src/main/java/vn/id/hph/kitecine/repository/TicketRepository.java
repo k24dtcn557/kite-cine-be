@@ -12,6 +12,8 @@ import vn.id.hph.kitecine.entity.Ticket;
 public interface TicketRepository extends JpaRepository<Ticket, Long>, JpaSpecificationExecutor<Ticket> {
     List<Ticket> findByPurchase_IdAndStatus(Long purchaseId, String status);
 
+    List<Ticket> findByPurchase_Id(Long purchaseId);
+
     List<Ticket> findByShowtime_IdAndStatusIn(Long showtimeId, List<String> statuses);
 
     List<Ticket> findByBuyerIdAndStatusAndIdIn(String buyerId, String status, List<Long> ids);
