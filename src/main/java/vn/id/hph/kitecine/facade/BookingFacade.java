@@ -6,6 +6,7 @@ import java.util.List;
 import jakarta.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -76,6 +77,10 @@ public class BookingFacade {
     @Transactional
     public PurchaseDto initializeBooking(PurchaseParam param) {
         var tickets = ticketService.getHoldingsByIds(param.ticketIds());
+        if (CollectionUtils.isEmpty(tickets)) {
+            throw new AppException(ErrorCode.TICKET_NOT_FOUND);
+        }
+
         if (tickets.size() != param.ticketIds().size()) {
             throw new AppException(ErrorCode.TICKET_EXPIRED);
         }
@@ -85,7 +90,7 @@ public class BookingFacade {
             totalPrice = totalPrice.add(ticket.getPurchasePrice());
         }
 
-        var purchase = purchaseService.initializePurchase(totalPrice);
+        var purchase = purchaseService.initializePurchase(tickets.getFirst().getShowtime(), totalPrice);
 
         ticketService.initializePurchase(purchase, tickets);
 

@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,11 +16,13 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import vn.id.hph.kitecine.controller.param.AuthenticationRequest;
+import vn.id.hph.kitecine.controller.param.ChangePasswordParam;
 import vn.id.hph.kitecine.controller.param.LogoutRequest;
 import vn.id.hph.kitecine.controller.param.UserCreationRequest;
+import vn.id.hph.kitecine.controller.param.UserProfileUpdateParam;
 import vn.id.hph.kitecine.controller.reponse.ApiResponse;
 import vn.id.hph.kitecine.facade.dto.AuthenticationResponse;
-import vn.id.hph.kitecine.facade.dto.UserResponse;
+import vn.id.hph.kitecine.facade.dto.UserDto;
 import vn.id.hph.kitecine.service.AuthenticationService;
 import vn.id.hph.kitecine.service.UserService;
 
@@ -31,16 +34,28 @@ public class AuthenticationController {
     UserService userService;
 
     @PostMapping("/users/register")
-    ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
-        return ApiResponse.<UserResponse>builder()
+    ApiResponse<UserDto> createUser(@RequestBody @Valid UserCreationRequest request) {
+        return ApiResponse.<UserDto>builder()
                 .result(userService.createUser(request))
                 .build();
     }
 
     @GetMapping("/users/my-info")
-    ApiResponse<UserResponse> getMyInfo() {
-        return ApiResponse.<UserResponse>builder()
-                .result(userService.getMyInfo())
+    ApiResponse<UserDto> getMyInfo() {
+        return ApiResponse.<UserDto>builder().result(userService.getMyInfo()).build();
+    }
+
+    @PutMapping("/users/my-info")
+    ApiResponse<UserDto> updateUser(@RequestBody UserProfileUpdateParam param) {
+        return ApiResponse.<UserDto>builder()
+                .result(userService.updateProfile(param))
+                .build();
+    }
+
+    @PostMapping("/users/change-password")
+    ApiResponse<UserDto> changePassword(@RequestBody ChangePasswordParam param) {
+        return ApiResponse.<UserDto>builder()
+                .result(userService.changePassword(param))
                 .build();
     }
 

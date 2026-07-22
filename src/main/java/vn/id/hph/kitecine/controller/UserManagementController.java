@@ -10,7 +10,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import vn.id.hph.kitecine.controller.param.UserUpdateRequest;
 import vn.id.hph.kitecine.controller.reponse.ApiResponse;
-import vn.id.hph.kitecine.facade.dto.UserResponse;
+import vn.id.hph.kitecine.facade.dto.UserDto;
 import vn.id.hph.kitecine.service.UserService;
 
 @RestController
@@ -22,15 +22,15 @@ public class UserManagementController {
     UserService userService;
 
     @GetMapping
-    ApiResponse<List<UserResponse>> getUsers() {
-        return ApiResponse.<List<UserResponse>>builder()
+    ApiResponse<List<UserDto>> getUsers() {
+        return ApiResponse.<List<UserDto>>builder()
                 .result(userService.getUsers())
                 .build();
     }
 
     @GetMapping("/{userId}")
-    ApiResponse<UserResponse> getUser(@PathVariable("userId") String userId) {
-        return ApiResponse.<UserResponse>builder()
+    ApiResponse<UserDto> getUser(@PathVariable("userId") String userId) {
+        return ApiResponse.<UserDto>builder()
                 .result(userService.getUser(userId))
                 .build();
     }
@@ -42,8 +42,8 @@ public class UserManagementController {
     }
 
     @PutMapping("/{userId}")
-    ApiResponse<UserResponse> updateUser(@PathVariable String userId, @RequestBody UserUpdateRequest request) {
-        return ApiResponse.<UserResponse>builder()
+    ApiResponse<UserDto> updateUser(@PathVariable String userId, @RequestBody UserUpdateRequest request) {
+        return ApiResponse.<UserDto>builder()
                 .result(userService.updateUser(userId, request))
                 .build();
     }

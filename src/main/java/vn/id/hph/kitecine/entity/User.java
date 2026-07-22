@@ -1,5 +1,6 @@
 package vn.id.hph.kitecine.entity;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 import jakarta.persistence.*;
@@ -31,6 +32,12 @@ public class User {
 
     @Column(name = "email")
     String email;
+
+    @Column(name = "phone_number")
+    String phoneNumber;
+
+    @Column(name = "dob")
+    LocalDate dob;
 
     @Column(name = "avatar", length = 2000)
     String avatar;

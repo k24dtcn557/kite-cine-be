@@ -12,6 +12,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import vn.id.hph.kitecine.configuration.CommonUtils;
 import vn.id.hph.kitecine.entity.Purchase;
+import vn.id.hph.kitecine.entity.ShowTime;
 import vn.id.hph.kitecine.enums.PurchaseStatus;
 import vn.id.hph.kitecine.exception.AppException;
 import vn.id.hph.kitecine.exception.ErrorCode;
@@ -26,12 +27,13 @@ public class PurchaseService {
     @NonFinal
     final long reservedTime = 5; // In Minutes
 
-    public Purchase initializePurchase(BigDecimal grandTotal) {
+    public Purchase initializePurchase(ShowTime showTime, BigDecimal grandTotal) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         Instant newExpireTime = Instant.now().plusSeconds(reservedTime * 60);
         Purchase purchase = Purchase.builder()
                 .code(CommonUtils.generateTicketCode())
                 .buyerId(userId)
+                .showtime(showTime)
                 .expirationTime(newExpireTime)
                 .grandTotal(grandTotal)
                 .status(PurchaseStatus.PENDING.name())
