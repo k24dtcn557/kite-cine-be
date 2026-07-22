@@ -30,7 +30,9 @@ public enum ErrorCode {
     PURCHASE_NOT_FOUND(2012, "Không tìm thấy thông tin đơn hàng", HttpStatus.NOT_FOUND),
     TICKET_NOT_SELECTED(2013, "Vui lòng chọn vé", HttpStatus.BAD_REQUEST),
     INVALID_OLD_PASSWORD(2014, "Mật khẩu cũ không đúng", HttpStatus.BAD_REQUEST),
-    PASSWORD_NOT_MATCHES(2015, "Mật khẩu mới và xác nhận mật khẩu không khớp", HttpStatus.BAD_REQUEST);
+    PASSWORD_NOT_MATCHES(2015, "Mật khẩu mới và xác nhận mật khẩu không khớp", HttpStatus.BAD_REQUEST),
+    NO_EMAIL_ADDRESS(2016, "Vui lòng cung cấp địa chỉ email", HttpStatus.BAD_REQUEST),
+    EMAIL_SEND_FAILED(2017, "Gửi email thất bại", HttpStatus.INTERNAL_SERVER_ERROR);
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

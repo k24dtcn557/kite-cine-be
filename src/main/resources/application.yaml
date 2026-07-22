@@ -22,6 +22,15 @@ spring:
       ddl-auto: update
     show-sql: true
 
+email-services:
+  senders:
+    - name: KITECINE
+      sender-name: Kite Cine
+      sender-email: kitecine@hph.id.vn
+  brevo:
+    url: https://api.brevo.com
+    apikey: ${BREVO_API_KEY:brevokey}
+
 jwt:
   signerKey: ${JWT_SIGNER_KEY:signer-key}
   valid-duration: 30000 # in second

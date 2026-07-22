@@ -1,0 +1,22 @@
+package vn.id.hph.kitecine.service.model;
+
+import java.util.Map;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import vn.id.hph.kitecine.configuration.EmailSender;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class NotificationDeliveryParam {
+    EmailSender sender;
+    String recipient;
+    Map<String, String> payload;
+}
