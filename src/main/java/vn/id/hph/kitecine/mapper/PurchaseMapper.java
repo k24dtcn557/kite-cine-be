@@ -9,11 +9,15 @@ import vn.id.hph.kitecine.facade.dto.PurchaseDetailDto;
 import vn.id.hph.kitecine.facade.dto.PurchaseDto;
 import vn.id.hph.kitecine.facade.dto.PurchaseWithShowTimeDto;
 
-@Mapper(componentModel = "spring")
+@Mapper(
+        componentModel = "spring",
+        uses = {ShowTimeMapper.class, AuditoriumMapper.class})
 public interface PurchaseMapper {
     PurchaseDto toPurchaseDto(Purchase purchase);
 
     PurchaseDetailDto toPurchaseDetailDto(Purchase purchase);
 
-    List<PurchaseWithShowTimeDto> toPurchaseWithShowTimeDtoList(List<Purchase> bookings);
+    PurchaseWithShowTimeDto toPurchaseWithShowTimeDto(Purchase purchase);
+
+    List<PurchaseWithShowTimeDto> toPurchaseWithShowTimeDtoList(List<Purchase> purchases);
 }

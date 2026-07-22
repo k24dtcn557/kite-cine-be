@@ -7,7 +7,6 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 import vn.id.hph.kitecine.controller.param.ShowTimeParam;
-import vn.id.hph.kitecine.entity.Purchase;
 import vn.id.hph.kitecine.entity.ShowTime;
 import vn.id.hph.kitecine.facade.dto.ShowTimeBriefDto;
 import vn.id.hph.kitecine.facade.dto.ShowTimeDetailDto;
@@ -29,5 +28,7 @@ public interface ShowTimeMapper {
 
     List<ShowTimeDto> toShowTimeDtoList(List<ShowTime> entities);
 
-    List<ShowTimeDetailDto> toShowTimeDetailDtoList(List<Purchase> purchases);
+    ShowTimeDetailDto toShowTimeDetailDto(ShowTime showTime);
+
+    List<ShowTimeDetailDto> toShowTimeDetailDtoList(List<ShowTime> showTimes);
 }
