@@ -125,7 +125,6 @@ public class BookingFacade {
 
                     var tickets = ticketService.getByPurchaseId(purchase.getId());
                     purchaseDto.setTickets(ticketMapper.toTicketDtoList(tickets));
-                    purchaseDto.setShowTime(showTimeMapper.toShowTimeDetailDto(purchase.getShowtime()));
                     return purchaseDto;
                 })
                 .toList();
