@@ -1,6 +1,7 @@
 package vn.id.hph.kitecine.facade.dto;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Set;
 
 import lombok.*;
@@ -17,6 +18,8 @@ public class UserDto {
     String fullName;
     String avatar;
     String email;
+    String phoneNumber;
+    LocalDate dob;
     Instant createdAt;
     Instant updatedAt;
     Set<RoleResponse> roles;
