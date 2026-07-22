@@ -18,7 +18,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PurchaseWithShowTimeDto {
     String code;
-    ShowTimeDto showTime;
+    ShowTimeDetailDto showTime;
     BigDecimal grandTotal;
     Instant createdAt;
     Instant updatedAt;

@@ -119,6 +119,15 @@ public class BookingFacade {
 
     public List<PurchaseWithShowTimeDto> getUpcomingShowTimes() {
         var bookings = purchaseService.getUpComingBookings();
-        return purchaseMapper.toPurchaseWithShowTimeDtoList(bookings);
+        return bookings.stream()
+                .map(purchase -> {
+                    var purchaseDto = purchaseMapper.toPurchaseWithShowTimeDto(purchase);
+
+                    var tickets = ticketService.getHoldingsPurchaseId(purchase.getId());
+                    purchaseDto.setTickets(ticketMapper.toTicketDtoList(tickets));
+                    purchaseDto.setShowTime(showTimeMapper.toShowTimeDetailDto(purchase.getShowtime()));
+                    return purchaseDto;
+                })
+                .toList();
     }
 }
