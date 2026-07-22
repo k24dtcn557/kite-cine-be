@@ -27,8 +27,8 @@ import vn.id.hph.kitecine.facade.dto.CrewMemberDto;
 import vn.id.hph.kitecine.facade.dto.MovieDto;
 import vn.id.hph.kitecine.facade.dto.PurchaseDetailDto;
 import vn.id.hph.kitecine.facade.dto.PurchaseDto;
+import vn.id.hph.kitecine.facade.dto.PurchaseWithShowTimeDto;
 import vn.id.hph.kitecine.facade.dto.SeatRowDto;
-import vn.id.hph.kitecine.facade.dto.ShowTimeDetailDto;
 import vn.id.hph.kitecine.facade.dto.TicketDto;
 import vn.id.hph.kitecine.mapper.TicketMapper;
 
@@ -147,8 +147,8 @@ public class MovieBookingController {
     }
 
     @GetMapping("/booking/up-comings")
-    public ApiResponse<List<ShowTimeDetailDto>> getUpcoming() {
-        return ApiResponse.<List<ShowTimeDetailDto>>builder()
+    public ApiResponse<List<PurchaseWithShowTimeDto>> getUpcoming() {
+        return ApiResponse.<List<PurchaseWithShowTimeDto>>builder()
                 .result(bookingFacade.getUpcomingShowTimes())
                 .build();
     }

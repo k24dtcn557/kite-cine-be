@@ -19,7 +19,7 @@ import vn.id.hph.kitecine.exception.AppException;
 import vn.id.hph.kitecine.exception.ErrorCode;
 import vn.id.hph.kitecine.facade.dto.PurchaseDetailDto;
 import vn.id.hph.kitecine.facade.dto.PurchaseDto;
-import vn.id.hph.kitecine.facade.dto.ShowTimeDetailDto;
+import vn.id.hph.kitecine.facade.dto.PurchaseWithShowTimeDto;
 import vn.id.hph.kitecine.facade.dto.TicketDto;
 import vn.id.hph.kitecine.mapper.PurchaseMapper;
 import vn.id.hph.kitecine.mapper.ShowTimeMapper;
@@ -117,8 +117,8 @@ public class BookingFacade {
         return purchaseDto;
     }
 
-    public List<ShowTimeDetailDto> getUpcomingShowTimes() {
+    public List<PurchaseWithShowTimeDto> getUpcomingShowTimes() {
         var bookings = purchaseService.getUpComingBookings();
-        return showTimeMapper.toShowTimeDetailDtoList(bookings);
+        return purchaseMapper.toPurchaseWithShowTimeDtoList(bookings);
     }
 }
