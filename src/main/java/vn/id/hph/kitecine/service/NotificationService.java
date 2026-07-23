@@ -13,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import vn.id.hph.kitecine.configuration.CommonUtils;
 import vn.id.hph.kitecine.enums.EmailTemplate;
 import vn.id.hph.kitecine.enums.PayloadField;
 import vn.id.hph.kitecine.exception.AppException;
@@ -68,14 +69,16 @@ public class NotificationService {
                 Map.of(
                         "MOVIE_TITLE", purchase.getShowtime().movie().title(),
                         "MOVIE_POSTER_URL", purchase.getShowtime().movie().poster(),
-                        "SHOW_DATE", purchase.getShowtime().date().toString(),
+                        "SHOW_DATE",
+                                CommonUtils.formatDate(purchase.getShowtime().date()),
                         "SHOW_TIME", purchase.getShowtime().startTime().toString(),
                         "CINEMA_NAME",
                                 purchase.getShowtime().auditorium().cinema().name(),
                         "SEATS", seats,
-                        "QR_CODE_IMAGE_URL", "https://kitecine.hph.id.vn/kite-cine/media/qrcode/" + purchase.getCode(),
+                        "QR_CODE_IMAGE_URL",
+                                "https://kitecineapi.hph.id.vn/kite-cine/media/qrcode/" + purchase.getCode(),
                         "RESERVATION_CODE", purchase.getCode(),
-                        "GRAND_TOTAL", purchase.getGrandTotal().toString()));
+                        "GRAND_TOTAL", CommonUtils.formatNumber(purchase.getGrandTotal())));
 
         Map<String, String> payload =
                 Map.of(PayloadField.TITLE.getValue(), "Vé xem phim của bạn", PayloadField.CONTENT.getValue(), content);

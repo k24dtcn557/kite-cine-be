@@ -1,12 +1,19 @@
 package vn.id.hph.kitecine.configuration;
 
+import java.math.BigDecimal;
 import java.security.SecureRandom;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+import java.util.Objects;
 
 public class CommonUtils {
     // 32 characters: No 0, O, 1, or I
     private static final String SAFE_ALPHABET = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
-    private static final int CODE_LENGTH = 6;
     private static final SecureRandom RANDOM = new SecureRandom();
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public static String generateTicketCode() {
         StringBuilder sb = new StringBuilder(9); // 8 chars + 1 hyphen
@@ -20,5 +27,22 @@ public class CommonUtils {
 
         // Output: "X7K9-P2M4"
         return sb.toString();
+    }
+
+    public static String formatDate(LocalDate localDate) {
+        if (localDate == null) {
+            return "";
+        }
+        // Format the date
+        return localDate.format(dateFormatter);
+    }
+
+    public static String formatNumber(BigDecimal value) {
+        if (Objects.isNull(value)) return "";
+
+        DecimalFormat df = new DecimalFormat("###,###,###");
+        df.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.forLanguageTag("VI")));
+
+        return df.format(value.longValue());
     }
 }
