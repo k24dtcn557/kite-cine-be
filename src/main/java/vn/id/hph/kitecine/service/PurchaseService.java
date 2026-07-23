@@ -74,4 +74,20 @@ public class PurchaseService {
 
         return purchaseRepository.findAll(query);
     }
+
+    public List<Purchase> getPastBookings() {
+        LocalDate today = Instant.now().atZone(ZoneId.of("Asia/Ho_Chi_Minh")).toLocalDate();
+
+        Specification<Purchase> query = (root, criteriaQuery, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            predicates.add(criteriaBuilder.lessThan(root.get("showtime").get("date"), today));
+
+            criteriaQuery.orderBy(criteriaBuilder.desc(root.get("createdAt")));
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
+
+        return purchaseRepository.findAll(query);
+    }
 }

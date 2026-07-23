@@ -149,14 +149,14 @@ public class MovieBookingController {
     @GetMapping("/booking/up-comings")
     public ApiResponse<List<PurchaseWithShowTimeDto>> getUpcoming() {
         return ApiResponse.<List<PurchaseWithShowTimeDto>>builder()
-                .result(bookingFacade.getUpcomingShowTimes())
+                .result(bookingFacade.getUpcomingBookings())
                 .build();
     }
 
     @GetMapping("/booking/past")
     public ApiResponse<List<PurchaseWithShowTimeDto>> getPast() {
         return ApiResponse.<List<PurchaseWithShowTimeDto>>builder()
-                .result(bookingFacade.getUpcomingShowTimes())
+                .result(bookingFacade.getPastBookings())
                 .build();
     }
 
