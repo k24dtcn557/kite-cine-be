@@ -28,6 +28,7 @@ public class SecurityConfig {
         "/media/qrcode/**",
         "/media/download/**",
         "/users/register",
+        "/users/reset-password",
         "/auth/token",
         "/auth/logout"
     };
