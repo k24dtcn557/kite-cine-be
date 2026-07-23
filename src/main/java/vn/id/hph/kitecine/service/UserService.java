@@ -52,6 +52,8 @@ public class UserService {
     @Transactional
     public UserDto createUser(UserCreationRequest request) {
         User user = userMapper.toUser(request);
+        user.setEmail(request.getUsername());
+
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         HashSet<Role> roles = new HashSet<>();
@@ -178,5 +180,9 @@ public class UserService {
 
     public User get(String userId) {
         return userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+    }
+
+    public User getByEmail(String email) {
+        return userRepository.findByUsername(email).orElse(null);
     }
 }

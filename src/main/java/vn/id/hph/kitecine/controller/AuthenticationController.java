@@ -18,9 +18,11 @@ import lombok.experimental.FieldDefaults;
 import vn.id.hph.kitecine.controller.param.AuthenticationRequest;
 import vn.id.hph.kitecine.controller.param.ChangePasswordParam;
 import vn.id.hph.kitecine.controller.param.LogoutRequest;
+import vn.id.hph.kitecine.controller.param.ResetPasswordParam;
 import vn.id.hph.kitecine.controller.param.UserCreationRequest;
 import vn.id.hph.kitecine.controller.param.UserProfileUpdateParam;
 import vn.id.hph.kitecine.controller.reponse.ApiResponse;
+import vn.id.hph.kitecine.facade.UserFacade;
 import vn.id.hph.kitecine.facade.dto.AuthenticationResponse;
 import vn.id.hph.kitecine.facade.dto.UserDto;
 import vn.id.hph.kitecine.service.AuthenticationService;
@@ -30,6 +32,7 @@ import vn.id.hph.kitecine.service.UserService;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthenticationController {
+    UserFacade userFacade;
     AuthenticationService authenticationService;
     UserService userService;
 
@@ -38,6 +41,12 @@ public class AuthenticationController {
         return ApiResponse.<UserDto>builder()
                 .result(userService.createUser(request))
                 .build();
+    }
+
+    @PostMapping("/users/reset-password")
+    ApiResponse<Void> resetPassword(@RequestBody ResetPasswordParam request) {
+        userFacade.resetPassword(request);
+        return ApiResponse.<Void>builder().build();
     }
 
     @GetMapping("/users/my-info")
