@@ -74,6 +74,7 @@ public class NotificationService {
                         "SHOW_TIME", purchase.getShowtime().startTime().toString(),
                         "CINEMA_NAME",
                                 purchase.getShowtime().auditorium().cinema().name(),
+                        "AUDITORIUM_NAME", purchase.getShowtime().auditorium().name(),
                         "SEATS", seats,
                         "QR_CODE_IMAGE_URL",
                                 "https://kitecineapi.hph.id.vn/kite-cine/media/qrcode/" + purchase.getCode(),

@@ -14,6 +14,9 @@ public class CommonUtils {
     private static final String SAFE_ALPHABET = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
     private static final SecureRandom RANDOM = new SecureRandom();
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final String[] days = {
+        "Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy",
+    };
 
     public static String generateTicketCode() {
         StringBuilder sb = new StringBuilder(9); // 8 chars + 1 hyphen
@@ -34,7 +37,9 @@ public class CommonUtils {
             return "";
         }
         // Format the date
-        return localDate.format(dateFormatter);
+        String date = localDate.format(dateFormatter);
+        date = days[localDate.getDayOfWeek().getValue() % 7] + ", " + date;
+        return date;
     }
 
     public static String formatNumber(BigDecimal value) {
