@@ -51,7 +51,6 @@ public class UserService {
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
 
-    @Transactional
     public UserDto register(UserRegistrationParam request) {
         User user = userMapper.toUser(request);
         user.setEmail(request.getUsername());
@@ -82,7 +81,6 @@ public class UserService {
         return userMapper.toUserDto(user);
     }
 
-    @Transactional
     public UserDto updateProfile(UserProfileUpdateParam param) {
         var context = SecurityContextHolder.getContext();
         String userId = context.getAuthentication().getName();
@@ -94,7 +92,6 @@ public class UserService {
         return userMapper.toUserDto(userRepository.save(user));
     }
 
-    @Transactional
     public UserDto changePassword(ChangePasswordParam param) {
         var context = SecurityContextHolder.getContext();
         String userId = context.getAuthentication().getName();
@@ -114,7 +111,6 @@ public class UserService {
         return userMapper.toUserDto(userRepository.save(user));
     }
 
-    @PostAuthorize("returnObject.username == authentication.name")
     public UserDto updateUser(String userId, UserUpdateRequest request) {
         User user = userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         userMapper.updateUser(user, request);
@@ -122,7 +118,6 @@ public class UserService {
         return userMapper.toUserDto(userRepository.save(user));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     public void deleteUser(String userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         user.setStatus(UserStatus.DELETED.name());
@@ -130,13 +125,6 @@ public class UserService {
         userRepository.save(user);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    public List<UserDto> getUsers() {
-        log.info("In method get Users");
-        return userRepository.findAll().stream().map(userMapper::toUserDto).toList();
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
     public PageResponse<UserDto> searchUsers(UserSearchParam param) {
         Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
         PageRequest pageRequest = PageRequest.of(param.getPage(), param.getSize(), sort);
@@ -170,7 +158,6 @@ public class UserService {
                 .build();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     public UserDto getUser(String id) {
         return userMapper.toUserDto(
                 userRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
