@@ -1,7 +1,5 @@
 package vn.id.hph.kitecine.controller;
 
-import java.util.List;
-
 import org.springframework.web.bind.annotation.*;
 
 import lombok.AccessLevel;
@@ -14,7 +12,6 @@ import vn.id.hph.kitecine.controller.reponse.ApiResponse;
 import vn.id.hph.kitecine.controller.reponse.PageResponse;
 import vn.id.hph.kitecine.facade.UserFacade;
 import vn.id.hph.kitecine.facade.dto.UserDto;
-import vn.id.hph.kitecine.service.UserService;
 
 @RestController
 @RequestMapping("/management/users")
@@ -33,9 +30,7 @@ public class UserManagementController {
 
     @GetMapping("/{userId}")
     ApiResponse<UserDto> getUser(@PathVariable("userId") String userId) {
-        return ApiResponse.<UserDto>builder()
-                .result(userFacade.getUser(userId))
-                .build();
+        return ApiResponse.<UserDto>builder().result(userFacade.getUser(userId)).build();
     }
 
     @DeleteMapping("/{userId}")

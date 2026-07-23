@@ -4,8 +4,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-import vn.id.hph.kitecine.controller.param.UserRegistrationParam;
 import vn.id.hph.kitecine.controller.param.UserProfileUpdateParam;
+import vn.id.hph.kitecine.controller.param.UserRegistrationParam;
 import vn.id.hph.kitecine.controller.param.UserUpdateRequest;
 import vn.id.hph.kitecine.entity.User;
 import vn.id.hph.kitecine.facade.dto.UserDto;
