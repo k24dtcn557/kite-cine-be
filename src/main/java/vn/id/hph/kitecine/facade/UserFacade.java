@@ -3,10 +3,9 @@ package vn.id.hph.kitecine.facade;
 import java.text.ParseException;
 import java.util.Objects;
 
-import jakarta.transaction.Transactional;
-
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.nimbusds.jose.JOSEException;
 

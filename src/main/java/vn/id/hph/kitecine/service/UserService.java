@@ -62,7 +62,7 @@ public class UserService {
         user.setRoles(roles);
 
         try {
-            user = userRepository.save(user);
+            user = userRepository.saveAndFlush(user);
         } catch (DataIntegrityViolationException exception) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
@@ -82,7 +82,7 @@ public class UserService {
         user.setRoles(roles);
 
         try {
-            user = userRepository.save(user);
+            user = userRepository.saveAndFlush(user);
         } catch (DataIntegrityViolationException exception) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
