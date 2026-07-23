@@ -121,7 +121,9 @@ public class BookingFacade {
         purchaseDto.setTickets(ticketMapper.toTicketDtoList(tickets));
 
         var user = userService.get(userId);
-        notificationService.sendTicket(user.getEmail(), purchaseMapper.toPurchaseWithShowTimeDto(purchase));
+        var purchaseWithShowTimeDto = purchaseMapper.toPurchaseWithShowTimeDto(purchase);
+        purchaseWithShowTimeDto.setTickets(ticketMapper.toTicketDtoList(tickets));
+        notificationService.sendTicket(user.getEmail(), purchaseWithShowTimeDto);
 
         return purchaseDto;
     }
