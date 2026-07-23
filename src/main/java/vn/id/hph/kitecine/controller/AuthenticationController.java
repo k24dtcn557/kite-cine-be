@@ -39,7 +39,7 @@ public class AuthenticationController {
     @PostMapping("/users/register")
     ApiResponse<UserDto> createUser(@RequestBody @Valid UserCreationRequest request) {
         return ApiResponse.<UserDto>builder()
-                .result(userService.createUser(request))
+                .result(userFacade.createUser(request))
                 .build();
     }
 

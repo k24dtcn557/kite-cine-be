@@ -17,6 +17,7 @@ import vn.id.hph.kitecine.enums.EmailTemplate;
 import vn.id.hph.kitecine.enums.PayloadField;
 import vn.id.hph.kitecine.exception.AppException;
 import vn.id.hph.kitecine.exception.ErrorCode;
+import vn.id.hph.kitecine.facade.dto.PurchaseWithShowTimeDto;
 import vn.id.hph.kitecine.repository.EmailDeliveryRepository;
 import vn.id.hph.kitecine.service.model.NotificationDeliveryParam;
 
@@ -27,12 +28,57 @@ import vn.id.hph.kitecine.service.model.NotificationDeliveryParam;
 public class NotificationService {
     EmailDeliveryRepository emailDeliveryRepository;
 
+    public void sendWelcomeOnboard(String email, String fullName) {
+        String template = loadTemplate(EmailTemplate.WELCOME_ONBOARD);
+        String content = applyParams(template, Map.of("FULL_NAME", fullName));
+
+        Map<String, String> payload = Map.of(
+                PayloadField.TITLE.getValue(),
+                "Chào mừng bạn đến với KiteCine",
+                PayloadField.CONTENT.getValue(),
+                content);
+
+        emailDeliveryRepository.deliver(NotificationDeliveryParam.builder()
+                .recipient(email)
+                .payload(payload)
+                .build());
+    }
+
     public void sendNewPassword(String email, String newPassword) {
         String template = loadTemplate(EmailTemplate.RESET_PASSWORD);
         String content = applyParams(template, Map.of("NEW_PASSWORD", newPassword));
 
         Map<String, String> payload =
-                Map.of(PayloadField.TITLE.getValue(), "Password mới của bạn", PayloadField.CONTENT.getValue(), content);
+                Map.of(PayloadField.TITLE.getValue(), "Mật khẩu mới của bạn", PayloadField.CONTENT.getValue(), content);
+
+        emailDeliveryRepository.deliver(NotificationDeliveryParam.builder()
+                .recipient(email)
+                .payload(payload)
+                .build());
+    }
+
+    public void sendTicket(String email, PurchaseWithShowTimeDto purchase) {
+        String template = loadTemplate(EmailTemplate.TICKET_EMAIL);
+        String seats = purchase.getTickets().stream()
+                .map(ticket -> ticket.rowLetter() + ticket.seatNumber())
+                .reduce((s1, s2) -> s1 + ", " + s2)
+                .orElse("");
+        String content = applyParams(
+                template,
+                Map.of(
+                        "MOVIE_TITLE", purchase.getShowtime().movie().title(),
+                        "MOVIE_POSTER_URL", purchase.getShowtime().movie().poster(),
+                        "SHOW_DATE", purchase.getShowtime().date().toString(),
+                        "SHOW_TIME", purchase.getShowtime().startTime().toString(),
+                        "CINEMA_NAME",
+                                purchase.getShowtime().auditorium().cinema().name(),
+                        "SEATS", seats,
+                        "QR_CODE_IMAGE_URL", "https://kitecine.hph.id.vn/kite-cine/media/qrcode/" + purchase.getCode(),
+                        "RESERVATION_CODE", purchase.getCode(),
+                        "GRAND_TOTAL", purchase.getGrandTotal().toString()));
+
+        Map<String, String> payload =
+                Map.of(PayloadField.TITLE.getValue(), "Vé xem phim của bạn", PayloadField.CONTENT.getValue(), content);
 
         emailDeliveryRepository.deliver(NotificationDeliveryParam.builder()
                 .recipient(email)

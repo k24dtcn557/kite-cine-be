@@ -5,6 +5,7 @@ import java.util.List;
 
 import jakarta.transaction.Transactional;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -24,10 +25,12 @@ import vn.id.hph.kitecine.facade.dto.TicketDto;
 import vn.id.hph.kitecine.mapper.PurchaseMapper;
 import vn.id.hph.kitecine.mapper.ShowTimeMapper;
 import vn.id.hph.kitecine.mapper.TicketMapper;
+import vn.id.hph.kitecine.service.NotificationService;
 import vn.id.hph.kitecine.service.PurchaseService;
 import vn.id.hph.kitecine.service.SeatService;
 import vn.id.hph.kitecine.service.ShowTimeService;
 import vn.id.hph.kitecine.service.TicketService;
+import vn.id.hph.kitecine.service.UserService;
 
 @Service
 @RequiredArgsConstructor
@@ -42,6 +45,8 @@ public class BookingFacade {
     TicketMapper ticketMapper;
     PurchaseMapper purchaseMapper;
     ShowTimeMapper showTimeMapper;
+    private final UserService userService;
+    private final NotificationService notificationService;
 
     @Transactional
     public TicketDto reserve(TicketParam param) {
@@ -102,6 +107,7 @@ public class BookingFacade {
 
     @Transactional
     public PurchaseDetailDto payBooking(String code) {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         var purchase = purchaseService.get(code);
         var tickets = ticketService.getHoldingsPurchaseId(purchase.getId());
         if (tickets.isEmpty()) {
@@ -113,6 +119,9 @@ public class BookingFacade {
 
         var purchaseDto = purchaseMapper.toPurchaseDetailDto(purchase);
         purchaseDto.setTickets(ticketMapper.toTicketDtoList(tickets));
+
+        var user = userService.get(userId);
+        notificationService.sendTicket(user.getEmail(), purchaseMapper.toPurchaseWithShowTimeDto(purchase));
 
         return purchaseDto;
     }

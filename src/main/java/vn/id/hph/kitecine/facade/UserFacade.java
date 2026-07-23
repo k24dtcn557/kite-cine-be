@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import vn.id.hph.kitecine.controller.param.ResetPasswordParam;
+import vn.id.hph.kitecine.controller.param.UserCreationRequest;
+import vn.id.hph.kitecine.facade.dto.UserDto;
 import vn.id.hph.kitecine.service.NotificationService;
 import vn.id.hph.kitecine.service.UserService;
 
@@ -34,5 +36,13 @@ public class UserFacade {
             var newPwd = userService.resetUserPassword(user);
             notificationService.sendNewPassword(user.getEmail(), newPwd);
         }
+    }
+
+    public UserDto createUser(UserCreationRequest request) {
+        var user = userService.createUser(request);
+
+        notificationService.sendWelcomeOnboard(user.getEmail(), user.getFullName());
+
+        return user;
     }
 }
