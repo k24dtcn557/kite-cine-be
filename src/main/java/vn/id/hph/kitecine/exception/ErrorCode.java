@@ -32,7 +32,9 @@ public enum ErrorCode {
     INVALID_OLD_PASSWORD(2014, "Mật khẩu cũ không đúng", HttpStatus.BAD_REQUEST),
     PASSWORD_NOT_MATCHES(2015, "Mật khẩu mới và xác nhận mật khẩu không khớp", HttpStatus.BAD_REQUEST),
     NO_EMAIL_ADDRESS(2016, "Vui lòng cung cấp địa chỉ email", HttpStatus.BAD_REQUEST),
-    EMAIL_SEND_FAILED(2017, "Gửi email thất bại", HttpStatus.INTERNAL_SERVER_ERROR);
+    EMAIL_SEND_FAILED(2017, "Gửi email thất bại", HttpStatus.INTERNAL_SERVER_ERROR),
+    CANNOT_READ_TEMPLATE(2018, "Không thể đọc mẫu email", HttpStatus.INTERNAL_SERVER_ERROR),
+    FILE_NOT_FOUND(2019, "Không tìm thấy tệp", HttpStatus.NOT_FOUND);
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

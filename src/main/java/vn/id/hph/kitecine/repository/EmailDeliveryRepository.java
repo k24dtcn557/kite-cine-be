@@ -1,4 +1,4 @@
-package vn.id.hph.kitecine.service;
+package vn.id.hph.kitecine.repository;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ import vn.id.hph.kitecine.service.model.NotificationDeliveryParam;
 @Component
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class EmailDeliveryService {
+public class EmailDeliveryRepository {
     BrevoClient brevoClient;
 
     @Value("${email-services.brevo.apikey}")

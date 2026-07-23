@@ -8,7 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import vn.id.hph.kitecine.configuration.EmailSender;
 
 @Data
 @NoArgsConstructor
@@ -16,7 +15,6 @@ import vn.id.hph.kitecine.configuration.EmailSender;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class NotificationDeliveryParam {
-    EmailSender sender;
     String recipient;
     Map<String, String> payload;
 }

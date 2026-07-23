@@ -2,6 +2,7 @@ package vn.id.hph.kitecine.service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 import jakarta.persistence.criteria.Predicate;
 import jakarta.transaction.Transactional;
@@ -166,5 +167,16 @@ public class UserService {
     public UserDto getUser(String id) {
         return userMapper.toUserDto(
                 userRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
+    }
+
+    public String resetUserPassword(User user) {
+        String newPwd = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+        user.setPassword(passwordEncoder.encode(newPwd));
+        userRepository.save(user);
+        return newPwd;
+    }
+
+    public User get(String userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
     }
 }

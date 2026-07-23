@@ -26,10 +26,13 @@ email-services:
   senders:
     - name: KITECINE
       sender-name: Kite Cine
-      sender-email: kitecine@hph.id.vn
+      sender-email: no-reply@nhathatgiathat.com.vn
   brevo:
     url: https://api.brevo.com
     apikey: ${BREVO_API_KEY:brevokey}
+storage:
+  location: ./files
+  url: ${MEDIA_DOWNLOAD_URL:https://kitecineapi.hph.id.vn/kite-cine/media}
 
 jwt:
   signerKey: ${JWT_SIGNER_KEY:signer-key}

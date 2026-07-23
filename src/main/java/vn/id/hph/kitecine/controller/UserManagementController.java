@@ -12,6 +12,7 @@ import vn.id.hph.kitecine.controller.param.UserSearchParam;
 import vn.id.hph.kitecine.controller.param.UserUpdateRequest;
 import vn.id.hph.kitecine.controller.reponse.ApiResponse;
 import vn.id.hph.kitecine.controller.reponse.PageResponse;
+import vn.id.hph.kitecine.facade.UserFacade;
 import vn.id.hph.kitecine.facade.dto.UserDto;
 import vn.id.hph.kitecine.service.UserService;
 
@@ -21,6 +22,7 @@ import vn.id.hph.kitecine.service.UserService;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 public class UserManagementController {
+    UserFacade userFacade;
     UserService userService;
 
     @GetMapping
@@ -54,6 +56,13 @@ public class UserManagementController {
     ApiResponse<UserDto> updateUser(@PathVariable String userId, @RequestBody UserUpdateRequest request) {
         return ApiResponse.<UserDto>builder()
                 .result(userService.updateUser(userId, request))
+                .build();
+    }
+
+    @PostMapping("/{userId}/reset-password")
+    ApiResponse<Void> resetUserPassword(@PathVariable String userId) {
+        userFacade.resetUserPassword(userId);
+        return ApiResponse.<Void>builder()
                 .build();
     }
 }
