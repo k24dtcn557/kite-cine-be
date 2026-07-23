@@ -1,9 +1,8 @@
 package vn.id.hph.kitecine.controller;
 
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
+
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import vn.id.hph.kitecine.controller.reponse.ApiResponse;
 import vn.id.hph.kitecine.facade.FileFacade;
 import vn.id.hph.kitecine.facade.dto.FileDto;
-
-import java.io.IOException;
 
 @RestController
 @Slf4j
@@ -49,19 +51,16 @@ public class MediaFileController {
     }
 
     @GetMapping("/qrcode/{qrCode}")
-    public ResponseEntity<Resource> getQrCode(@PathVariable String qrCode) throws IOException {
+    public ResponseEntity<Resource> getQrCode(@PathVariable String qrCode) {
         byte[] png = qrService.generatePng(qrCode, 300, 300);
-        var resource = new org.springframework.core.io.ByteArrayResource(png);
+        var resource = new ByteArrayResource(png);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_TYPE, "image/png")
-                .header(
-                        HttpHeaders.CONTENT_DISPOSITION,
-                        "inline; filename=\"qrcode.png\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"qrcode.png\"")
                 .header(HttpHeaders.CACHE_CONTROL, "public, max-age=2592000")
                 .header(HttpHeaders.PRAGMA, "")
                 .body(resource);
     }
-
 
     @PostMapping("/upload")
     public ApiResponse<FileDto> uploadFile(@RequestPart("file") MultipartFile file) throws IOException {

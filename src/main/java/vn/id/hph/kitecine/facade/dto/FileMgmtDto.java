@@ -1,8 +1,8 @@
 package vn.id.hph.kitecine.facade.dto;
 
-import vn.id.hph.kitecine.enums.FileType;
-
 import java.time.Instant;
+
+import vn.id.hph.kitecine.enums.FileType;
 
 public record FileMgmtDto(
         String id,

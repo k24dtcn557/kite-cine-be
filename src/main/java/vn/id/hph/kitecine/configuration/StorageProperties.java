@@ -1,11 +1,12 @@
 package vn.id.hph.kitecine.configuration;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.io.File;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-import java.io.File;
+import lombok.Getter;
+import lombok.Setter;
 
 @Configuration
 @Getter

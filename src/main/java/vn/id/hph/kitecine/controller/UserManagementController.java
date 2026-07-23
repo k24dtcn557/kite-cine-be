@@ -62,7 +62,6 @@ public class UserManagementController {
     @PostMapping("/{userId}/reset-password")
     ApiResponse<Void> resetUserPassword(@PathVariable String userId) {
         userFacade.resetUserPassword(userId);
-        return ApiResponse.<Void>builder()
-                .build();
+        return ApiResponse.<Void>builder().build();
     }
 }
