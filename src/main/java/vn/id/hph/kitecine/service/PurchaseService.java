@@ -9,20 +9,27 @@ import java.util.List;
 
 import jakarta.persistence.criteria.Predicate;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import vn.id.hph.kitecine.configuration.CommonUtils;
+import vn.id.hph.kitecine.controller.param.BookingSearchParam;
+import vn.id.hph.kitecine.controller.reponse.PageResponse;
 import vn.id.hph.kitecine.entity.Purchase;
 import vn.id.hph.kitecine.entity.ShowTime;
 import vn.id.hph.kitecine.enums.PurchaseStatus;
 import vn.id.hph.kitecine.exception.AppException;
 import vn.id.hph.kitecine.exception.ErrorCode;
+import vn.id.hph.kitecine.mapper.PurchaseMapper;
 import vn.id.hph.kitecine.repository.PurchaseRepository;
 
 @Service
@@ -30,6 +37,7 @@ import vn.id.hph.kitecine.repository.PurchaseRepository;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class PurchaseService {
     PurchaseRepository purchaseRepository;
+    PurchaseMapper purchaseMapper;
 
     @NonFinal
     final long reservedTime = 5; // In Minutes
@@ -89,5 +97,37 @@ public class PurchaseService {
         };
 
         return purchaseRepository.findAll(query);
+    }
+
+    public PageResponse<vn.id.hph.kitecine.facade.dto.PurchaseWithShowTimeDto> searchBookings(BookingSearchParam param) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
+        PageRequest pageRequest = PageRequest.of(param.getPage(), param.getSize(), sort);
+
+        Specification<Purchase> query = (root, criteriaQuery, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (StringUtils.hasText(param.getKeyword())) {
+                String keyword = "%" + param.getKeyword().toLowerCase() + "%";
+                predicates.add(criteriaBuilder.or(
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("code")), keyword),
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("buyerId")), keyword),
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("showtime").get("movie").get("title")), keyword)));
+            }
+
+            if (StringUtils.hasText(param.getStatus())) {
+                predicates.add(criteriaBuilder.equal(root.get("status"), param.getStatus()));
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
+
+        Page<Purchase> page = purchaseRepository.findAll(query, pageRequest);
+        return PageResponse.<vn.id.hph.kitecine.facade.dto.PurchaseWithShowTimeDto>builder()
+                .totalPages(page.getTotalPages())
+                .pageNumber(page.getNumber())
+                .totalElements(page.getTotalElements())
+                .pageSize(page.getSize())
+                .data(page.getContent().stream().map(purchaseMapper::toPurchaseWithShowTimeDto).toList())
+                .build();
     }
 }

@@ -9,6 +9,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import vn.id.hph.kitecine.controller.param.BookingSearchParam;
+import vn.id.hph.kitecine.controller.reponse.PageResponse;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -162,5 +165,9 @@ public class BookingFacade {
         purchaseDto.setTickets(ticketMapper.toTicketDtoList(tickets));
 
         return purchaseDto;
+    }
+
+    public PageResponse<PurchaseWithShowTimeDto> searchBookings(BookingSearchParam param) {
+        return purchaseService.searchBookings(param);
     }
 }
