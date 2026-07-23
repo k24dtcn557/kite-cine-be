@@ -182,6 +182,8 @@ public class UserService {
     }
 
     public UserDto lockUser(String userId) {
-        return null;
+        User user = get(userId);
+        user.setStatus(UserStatus.LOCKED.name());
+        return userMapper.toUserDto(userRepository.save(user));
     }
 }
