@@ -1,11 +1,9 @@
 package vn.id.hph.kitecine.controller.param;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import vn.id.hph.kitecine.validator.DobConstraint;
 
 @Data
 @Builder
@@ -13,12 +11,8 @@ import vn.id.hph.kitecine.validator.DobConstraint;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserUpdateRequest {
-    String password;
-    String firstName;
-    String lastName;
-
-    @DobConstraint(min = 18, message = "INVALID_DOB")
+    String fullName;
+    String email;
+    String phoneNumber;
     LocalDate dob;
-
-    List<String> roles;
 }

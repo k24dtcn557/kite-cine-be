@@ -1,5 +1,6 @@
 package vn.id.hph.kitecine.service;
 
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
@@ -25,13 +26,14 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import vn.id.hph.kitecine.constant.PredefinedRole;
 import vn.id.hph.kitecine.controller.param.ChangePasswordParam;
-import vn.id.hph.kitecine.controller.param.UserCreationRequest;
+import vn.id.hph.kitecine.controller.param.UserRegistrationParam;
 import vn.id.hph.kitecine.controller.param.UserProfileUpdateParam;
 import vn.id.hph.kitecine.controller.param.UserSearchParam;
 import vn.id.hph.kitecine.controller.param.UserUpdateRequest;
 import vn.id.hph.kitecine.controller.reponse.PageResponse;
 import vn.id.hph.kitecine.entity.Role;
 import vn.id.hph.kitecine.entity.User;
+import vn.id.hph.kitecine.enums.UserStatus;
 import vn.id.hph.kitecine.exception.AppException;
 import vn.id.hph.kitecine.exception.ErrorCode;
 import vn.id.hph.kitecine.facade.dto.UserDto;
@@ -50,11 +52,12 @@ public class UserService {
     PasswordEncoder passwordEncoder;
 
     @Transactional
-    public UserDto createUser(UserCreationRequest request) {
+    public UserDto register(UserRegistrationParam request) {
         User user = userMapper.toUser(request);
         user.setEmail(request.getUsername());
 
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setStatus(UserStatus.ACTIVE.name());
 
         HashSet<Role> roles = new HashSet<>();
         roleRepository.findById(PredefinedRole.USER_ROLE).ifPresent(roles::add);
@@ -114,19 +117,17 @@ public class UserService {
     @PostAuthorize("returnObject.username == authentication.name")
     public UserDto updateUser(String userId, UserUpdateRequest request) {
         User user = userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
-
         userMapper.updateUser(user, request);
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-
-        var roles = roleRepository.findAllById(request.getRoles());
-        user.setRoles(new HashSet<>(roles));
 
         return userMapper.toUserDto(userRepository.save(user));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteUser(String userId) {
-        userRepository.deleteById(userId);
+        User user = userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        user.setStatus(UserStatus.DELETED.name());
+        user.setUsername(user.getUsername() + "_deleted_" + Instant.now().toEpochMilli());
+        userRepository.save(user);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -137,7 +138,7 @@ public class UserService {
 
     @PreAuthorize("hasRole('ADMIN')")
     public PageResponse<UserDto> searchUsers(UserSearchParam param) {
-        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
         PageRequest pageRequest = PageRequest.of(param.getPage(), param.getSize(), sort);
 
         Specification<User> query = (root, criteriaQuery, criteriaBuilder) -> {
@@ -150,6 +151,10 @@ public class UserService {
                         criteriaBuilder.like(criteriaBuilder.lower(root.get("fullName")), keyword),
                         criteriaBuilder.like(criteriaBuilder.lower(root.get("email")), keyword),
                         criteriaBuilder.like(criteriaBuilder.lower(root.get("phoneNumber")), keyword)));
+            }
+
+            if (StringUtils.hasText(param.getStatus())) {
+                predicates.add(criteriaBuilder.equal(root.get("status"), param.getStatus()));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
@@ -184,5 +189,15 @@ public class UserService {
 
     public User getByEmail(String email) {
         return userRepository.findByUsername(email).orElse(null);
+    }
+
+    public UserDto activateUser(String userId) {
+        User user = get(userId);
+        user.setStatus(UserStatus.ACTIVE.name());
+        return userMapper.toUserDto(userRepository.save(user));
+    }
+
+    public UserDto lockUser(String userId) {
+        return null;
     }
 }

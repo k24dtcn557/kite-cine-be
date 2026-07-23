@@ -14,4 +14,5 @@ import lombok.experimental.SuperBuilder;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserSearchParam extends PageSizeSearchParam {
     String keyword;
+    String status;
 }

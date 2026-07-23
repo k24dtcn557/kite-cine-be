@@ -16,7 +16,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "users")
-public class User {
+public class User extends AbstractAuditEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     String id;
@@ -41,6 +41,9 @@ public class User {
 
     @Column(name = "avatar", length = 2000)
     String avatar;
+
+    @Column(name = "status")
+    String status;
 
     @ManyToMany
     Set<Role> roles;

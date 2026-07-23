@@ -23,39 +23,38 @@ import vn.id.hph.kitecine.service.UserService;
 @Slf4j
 public class UserManagementController {
     UserFacade userFacade;
-    UserService userService;
-
-    @GetMapping
-    ApiResponse<List<UserDto>> getUsers() {
-        return ApiResponse.<List<UserDto>>builder()
-                .result(userService.getUsers())
-                .build();
-    }
 
     @PostMapping("/search")
     ApiResponse<PageResponse<UserDto>> searchUsers(@RequestBody UserSearchParam param) {
         return ApiResponse.<PageResponse<UserDto>>builder()
-                .result(userService.searchUsers(param))
+                .result(userFacade.searchUsers(param))
                 .build();
     }
 
     @GetMapping("/{userId}")
     ApiResponse<UserDto> getUser(@PathVariable("userId") String userId) {
         return ApiResponse.<UserDto>builder()
-                .result(userService.getUser(userId))
+                .result(userFacade.getUser(userId))
                 .build();
     }
 
     @DeleteMapping("/{userId}")
     ApiResponse<String> deleteUser(@PathVariable String userId) {
-        userService.deleteUser(userId);
+        userFacade.deleteUser(userId);
         return ApiResponse.<String>builder().result("User has been deleted").build();
     }
 
     @PutMapping("/{userId}")
     ApiResponse<UserDto> updateUser(@PathVariable String userId, @RequestBody UserUpdateRequest request) {
         return ApiResponse.<UserDto>builder()
-                .result(userService.updateUser(userId, request))
+                .result(userFacade.updateUser(userId, request))
+                .build();
+    }
+
+    @PutMapping("/{userId}/activate")
+    ApiResponse<UserDto> activateUser(@PathVariable String userId) {
+        return ApiResponse.<UserDto>builder()
+                .result(userFacade.activateUser(userId))
                 .build();
     }
 

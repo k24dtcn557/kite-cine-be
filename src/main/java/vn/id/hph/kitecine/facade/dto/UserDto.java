@@ -22,5 +22,6 @@ public class UserDto {
     LocalDate dob;
     Instant createdAt;
     Instant updatedAt;
+    String status;
     Set<RoleResponse> roles;
 }

@@ -19,7 +19,7 @@ import vn.id.hph.kitecine.controller.param.AuthenticationRequest;
 import vn.id.hph.kitecine.controller.param.ChangePasswordParam;
 import vn.id.hph.kitecine.controller.param.LogoutRequest;
 import vn.id.hph.kitecine.controller.param.ResetPasswordParam;
-import vn.id.hph.kitecine.controller.param.UserCreationRequest;
+import vn.id.hph.kitecine.controller.param.UserRegistrationParam;
 import vn.id.hph.kitecine.controller.param.UserProfileUpdateParam;
 import vn.id.hph.kitecine.controller.reponse.ApiResponse;
 import vn.id.hph.kitecine.facade.UserFacade;
@@ -37,9 +37,9 @@ public class AuthenticationController {
     UserService userService;
 
     @PostMapping("/users/register")
-    ApiResponse<UserDto> createUser(@RequestBody @Valid UserCreationRequest request) {
+    ApiResponse<UserDto> createUser(@RequestBody @Valid UserRegistrationParam request) {
         return ApiResponse.<UserDto>builder()
-                .result(userFacade.createUser(request))
+                .result(userFacade.register(request))
                 .build();
     }
 
