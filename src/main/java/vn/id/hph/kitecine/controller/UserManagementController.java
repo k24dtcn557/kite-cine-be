@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import vn.id.hph.kitecine.controller.param.UserCreationParam;
 import vn.id.hph.kitecine.controller.param.UserSearchParam;
 import vn.id.hph.kitecine.controller.param.UserUpdateRequest;
 import vn.id.hph.kitecine.controller.reponse.ApiResponse;
@@ -20,6 +21,13 @@ import vn.id.hph.kitecine.facade.dto.UserDto;
 @Slf4j
 public class UserManagementController {
     UserFacade userFacade;
+
+    @PostMapping
+    ApiResponse<UserDto> createUser(@RequestBody UserCreationParam param) {
+        return ApiResponse.<UserDto>builder()
+                .result(userFacade.createUser(param))
+                .build();
+    }
 
     @PostMapping("/search")
     ApiResponse<PageResponse<UserDto>> searchUsers(@RequestBody UserSearchParam param) {

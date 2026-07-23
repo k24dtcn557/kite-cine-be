@@ -23,6 +23,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import vn.id.hph.kitecine.constant.PredefinedRole;
 import vn.id.hph.kitecine.controller.param.ChangePasswordParam;
+import vn.id.hph.kitecine.controller.param.UserCreationParam;
 import vn.id.hph.kitecine.controller.param.UserProfileUpdateParam;
 import vn.id.hph.kitecine.controller.param.UserRegistrationParam;
 import vn.id.hph.kitecine.controller.param.UserSearchParam;
@@ -57,6 +58,26 @@ public class UserService {
 
         HashSet<Role> roles = new HashSet<>();
         roleRepository.findById(PredefinedRole.USER_ROLE).ifPresent(roles::add);
+
+        user.setRoles(roles);
+
+        try {
+            user = userRepository.save(user);
+        } catch (DataIntegrityViolationException exception) {
+            throw new AppException(ErrorCode.USER_EXISTED);
+        }
+
+        return userMapper.toUserDto(user);
+    }
+
+    public UserDto create(UserCreationParam request) {
+        User user = userMapper.toUser(request);
+
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setStatus(UserStatus.ACTIVE.name());
+
+        HashSet<Role> roles = new HashSet<>();
+        roleRepository.findById(request.getRole()).ifPresent(roles::add);
 
         user.setRoles(roles);
 

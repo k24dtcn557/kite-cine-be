@@ -18,6 +18,7 @@ import vn.id.hph.kitecine.controller.param.AuthenticationRequest;
 import vn.id.hph.kitecine.controller.param.ChangePasswordParam;
 import vn.id.hph.kitecine.controller.param.LogoutRequest;
 import vn.id.hph.kitecine.controller.param.ResetPasswordParam;
+import vn.id.hph.kitecine.controller.param.UserCreationParam;
 import vn.id.hph.kitecine.controller.param.UserProfileUpdateParam;
 import vn.id.hph.kitecine.controller.param.UserRegistrationParam;
 import vn.id.hph.kitecine.controller.param.UserSearchParam;
@@ -61,6 +62,12 @@ public class UserFacade {
         notificationService.sendWelcomeOnboard(user.getEmail(), user.getFullName());
 
         return user;
+    }
+
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
+    public UserDto createUser(UserCreationParam param) {
+        return userService.create(param);
     }
 
     @Transactional
