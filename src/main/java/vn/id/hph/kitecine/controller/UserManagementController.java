@@ -46,7 +46,14 @@ public class UserManagementController {
                 .build();
     }
 
-    @PutMapping("/{userId}/activate")
+    @PostMapping("/{userId}/lock")
+    ApiResponse<UserDto> lockUser(@PathVariable String userId) {
+        return ApiResponse.<UserDto>builder()
+                .result(userFacade.lockUser(userId))
+                .build();
+    }
+
+    @PostMapping("/{userId}/activate")
     ApiResponse<UserDto> activateUser(@PathVariable String userId) {
         return ApiResponse.<UserDto>builder()
                 .result(userFacade.activateUser(userId))
