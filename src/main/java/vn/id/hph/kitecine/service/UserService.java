@@ -134,7 +134,7 @@ public class UserService {
 
     @PreAuthorize("hasRole('ADMIN')")
     public PageResponse<UserDto> searchUsers(UserSearchParam param) {
-        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
         PageRequest pageRequest = PageRequest.of(param.getPage(), param.getSize(), sort);
 
         Specification<User> query = (root, criteriaQuery, criteriaBuilder) -> {
