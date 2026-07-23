@@ -8,13 +8,15 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import vn.id.hph.kitecine.controller.param.UserSearchParam;
 import vn.id.hph.kitecine.controller.param.UserUpdateRequest;
 import vn.id.hph.kitecine.controller.reponse.ApiResponse;
+import vn.id.hph.kitecine.controller.reponse.PageResponse;
 import vn.id.hph.kitecine.facade.dto.UserDto;
 import vn.id.hph.kitecine.service.UserService;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/management/users")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
@@ -25,6 +27,13 @@ public class UserManagementController {
     ApiResponse<List<UserDto>> getUsers() {
         return ApiResponse.<List<UserDto>>builder()
                 .result(userService.getUsers())
+                .build();
+    }
+
+    @PostMapping("/search")
+    ApiResponse<PageResponse<UserDto>> searchUsers(@RequestBody UserSearchParam param) {
+        return ApiResponse.<PageResponse<UserDto>>builder()
+                .result(userService.searchUsers(param))
                 .build();
     }
 

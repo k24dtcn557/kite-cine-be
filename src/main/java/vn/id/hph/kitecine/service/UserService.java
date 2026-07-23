@@ -3,14 +3,20 @@ package vn.id.hph.kitecine.service;
 import java.util.HashSet;
 import java.util.List;
 
+import jakarta.persistence.criteria.Predicate;
 import jakarta.transaction.Transactional;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +26,9 @@ import vn.id.hph.kitecine.constant.PredefinedRole;
 import vn.id.hph.kitecine.controller.param.ChangePasswordParam;
 import vn.id.hph.kitecine.controller.param.UserCreationRequest;
 import vn.id.hph.kitecine.controller.param.UserProfileUpdateParam;
+import vn.id.hph.kitecine.controller.param.UserSearchParam;
 import vn.id.hph.kitecine.controller.param.UserUpdateRequest;
+import vn.id.hph.kitecine.controller.reponse.PageResponse;
 import vn.id.hph.kitecine.entity.Role;
 import vn.id.hph.kitecine.entity.User;
 import vn.id.hph.kitecine.exception.AppException;
@@ -122,6 +130,36 @@ public class UserService {
     public List<UserDto> getUsers() {
         log.info("In method get Users");
         return userRepository.findAll().stream().map(userMapper::toUserDto).toList();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    public PageResponse<UserDto> searchUsers(UserSearchParam param) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
+        PageRequest pageRequest = PageRequest.of(param.getPage(), param.getSize(), sort);
+
+        Specification<User> query = (root, criteriaQuery, criteriaBuilder) -> {
+            List<Predicate> predicates = new java.util.ArrayList<>();
+
+            if (StringUtils.hasText(param.getKeyword())) {
+                String keyword = "%" + param.getKeyword().toLowerCase() + "%";
+                predicates.add(criteriaBuilder.or(
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("username")), keyword),
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("fullName")), keyword),
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("email")), keyword),
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("phoneNumber")), keyword)));
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
+
+        Page<User> page = userRepository.findAll(query, pageRequest);
+        return PageResponse.<UserDto>builder()
+                .totalPages(page.getTotalPages())
+                .pageNumber(page.getNumber())
+                .totalElements(page.getTotalElements())
+                .pageSize(page.getSize())
+                .data(page.getContent().stream().map(userMapper::toUserDto).toList())
+                .build();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
