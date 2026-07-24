@@ -1,22 +1,23 @@
 package vn.id.hph.kitecine.service.report;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import org.springframework.stereotype.Component;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import vn.id.hph.kitecine.configuration.CommonUtils;
 import vn.id.hph.kitecine.controller.param.DashboardReportParam;
 import vn.id.hph.kitecine.enums.TimeRange;
 import vn.id.hph.kitecine.service.TicketService;
 import vn.id.hph.kitecine.service.model.ChartColumnDto;
 import vn.id.hph.kitecine.service.model.ChartReportDto;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @Component

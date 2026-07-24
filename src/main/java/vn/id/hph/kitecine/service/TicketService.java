@@ -203,4 +203,9 @@ public class TicketService {
     public BigDecimal getRevenueByDay(LocalDate date) {
         return ticketRepository.sumPurchasePriceByStatusAndShowtimeDate(TicketStatus.CONFIRMED.name(), date);
     }
+
+    public BigDecimal getRevenueByDays(LocalDate fromDate, LocalDate toDate) {
+        return ticketRepository.sumPurchasePriceByStatusAndShowtimeDates(
+                TicketStatus.CONFIRMED.name(), fromDate, toDate);
+    }
 }

@@ -17,6 +17,7 @@ public class CommonUtils {
     private static final SecureRandom RANDOM = new SecureRandom();
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final DateTimeFormatter dayMonthFormatter = DateTimeFormatter.ofPattern("dd/MM");
+    private static final DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("MM/yy");
 
     private static final String[] days = {
         "Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy",
@@ -66,6 +67,15 @@ public class CommonUtils {
         }
         // Format the date
         String date = localDate.format(dayMonthFormatter);
+        return date;
+    }
+
+    public static String formatMonth(LocalDate localDate) {
+        if (localDate == null) {
+            return "";
+        }
+        // Format the date
+        String date = localDate.format(monthFormatter);
         return date;
     }
 

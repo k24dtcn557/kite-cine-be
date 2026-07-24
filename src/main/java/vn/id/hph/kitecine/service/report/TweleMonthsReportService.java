@@ -1,22 +1,23 @@
 package vn.id.hph.kitecine.service.report;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import org.springframework.stereotype.Component;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import vn.id.hph.kitecine.configuration.CommonUtils;
 import vn.id.hph.kitecine.controller.param.DashboardReportParam;
 import vn.id.hph.kitecine.enums.TimeRange;
 import vn.id.hph.kitecine.service.TicketService;
 import vn.id.hph.kitecine.service.model.ChartColumnDto;
 import vn.id.hph.kitecine.service.model.ChartReportDto;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @Component
@@ -38,12 +39,13 @@ public class TweleMonthsReportService implements DashboardReportService {
     }
 
     private List<ChartColumnDto> generateChart(DashboardReportParam param) {
-        // Generate chart columns for the current day
+        // Generate chart columns for the current month
         List<ChartColumnDto> chart = new ArrayList<>();
         var timeSeries = generateTimeSeries();
 
         for (LocalDate date : timeSeries) {
-            BigDecimal revenue = ticketService.getRevenueByDay(date);
+            BigDecimal revenue =
+                    ticketService.getRevenueByDays(date, date.plusMonths(1).minusDays(1));
 
             ChartColumnDto chartColumn = ChartColumnDto.builder()
                     .label(generateLabel(date))
@@ -58,18 +60,22 @@ public class TweleMonthsReportService implements DashboardReportService {
 
     // Generate time series for the report
     private List<LocalDate> generateTimeSeries() {
-        LocalDate today = CommonUtils.getVietnamLocalDate();
-        List<LocalDate> timeSeries = new ArrayList<>();
-        timeSeries.add(today);
+        LocalDate firstMonth = LocalDate.of(
+                CommonUtils.getVietnamLocalDate().getYear(),
+                CommonUtils.getVietnamLocalDate().getMonth(),
+                1);
 
-        for (int i = 1; i <= 30; i++) {
-            timeSeries.add(today.minusDays(i));
+        List<LocalDate> timeSeries = new ArrayList<>();
+        timeSeries.add(firstMonth);
+
+        for (int i = 1; i <= 11; i++) {
+            timeSeries.add(firstMonth.minusMonths(i));
         }
 
         return timeSeries.reversed();
     }
 
     private String generateLabel(LocalDate date) {
-        return CommonUtils.formatDayMonth(date);
+        return CommonUtils.formatMonth(date);
     }
 }
