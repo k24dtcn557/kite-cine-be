@@ -62,6 +62,8 @@ public class AuditoriumService {
         Specification<Auditorium> query = (root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
+            predicates.add(criteriaBuilder.equal(root.get("status"), AuditoriumStatus.ACTIVE.name()));
+
             if (Objects.nonNull(param.getCinemaId())) {
                 predicates.add(criteriaBuilder.equal(root.get("cinema").get("id"), param.getCinemaId()));
             }
