@@ -2,6 +2,8 @@ package vn.id.hph.kitecine.service;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -187,5 +189,15 @@ public class TicketService {
             ticket.setStatus(TicketStatus.CONFIRMED.name());
         }
         return ticketRepository.saveAll(tickets);
+    }
+
+    public int getSoldTicketsToday() {
+        LocalDate today = Instant.now().atZone(ZoneId.of("Asia/Ho_Chi_Minh")).toLocalDate();
+        return ticketRepository.countByStatusAndShowtime_Date(TicketStatus.CONFIRMED.name(), today);
+    }
+
+    public BigDecimal getRevenueToday() {
+        LocalDate today = Instant.now().atZone(ZoneId.of("Asia/Ho_Chi_Minh")).toLocalDate();
+        return ticketRepository.sumPurchasePriceByStatusAndShowtimeDate(TicketStatus.CONFIRMED.name(), today);
     }
 }

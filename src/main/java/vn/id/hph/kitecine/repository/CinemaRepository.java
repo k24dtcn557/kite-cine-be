@@ -11,4 +11,6 @@ import vn.id.hph.kitecine.entity.Cinema;
 @Repository
 public interface CinemaRepository extends JpaRepository<Cinema, Long>, JpaSpecificationExecutor<Cinema> {
     List<Cinema> findAllByOrderByIdDesc();
+
+    long countAllByStatus(String status);
 }

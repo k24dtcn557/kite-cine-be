@@ -99,7 +99,8 @@ public class PurchaseService {
         return purchaseRepository.findAll(query);
     }
 
-    public PageResponse<vn.id.hph.kitecine.facade.dto.PurchaseWithShowTimeDto> searchBookings(BookingSearchParam param) {
+    public PageResponse<vn.id.hph.kitecine.facade.dto.PurchaseWithShowTimeDto> searchBookings(
+            BookingSearchParam param) {
         Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
         PageRequest pageRequest = PageRequest.of(param.getPage(), param.getSize(), sort);
 
@@ -111,7 +112,10 @@ public class PurchaseService {
                 predicates.add(criteriaBuilder.or(
                         criteriaBuilder.like(criteriaBuilder.lower(root.get("code")), keyword),
                         criteriaBuilder.like(criteriaBuilder.lower(root.get("buyerId")), keyword),
-                        criteriaBuilder.like(criteriaBuilder.lower(root.get("showtime").get("movie").get("title")), keyword)));
+                        criteriaBuilder.like(
+                                criteriaBuilder.lower(
+                                        root.get("showtime").get("movie").get("title")),
+                                keyword)));
             }
 
             if (StringUtils.hasText(param.getStatus())) {
@@ -127,7 +131,9 @@ public class PurchaseService {
                 .pageNumber(page.getNumber())
                 .totalElements(page.getTotalElements())
                 .pageSize(page.getSize())
-                .data(page.getContent().stream().map(purchaseMapper::toPurchaseWithShowTimeDto).toList())
+                .data(page.getContent().stream()
+                        .map(purchaseMapper::toPurchaseWithShowTimeDto)
+                        .toList())
                 .build();
     }
 }

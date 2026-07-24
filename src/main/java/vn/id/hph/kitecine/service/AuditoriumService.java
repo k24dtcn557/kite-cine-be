@@ -22,6 +22,7 @@ import vn.id.hph.kitecine.controller.reponse.PageResponse;
 import vn.id.hph.kitecine.entity.Auditorium;
 import vn.id.hph.kitecine.entity.Cinema;
 import vn.id.hph.kitecine.enums.AuditoriumStatus;
+import vn.id.hph.kitecine.enums.CinemaStatus;
 import vn.id.hph.kitecine.exception.AppException;
 import vn.id.hph.kitecine.exception.ErrorCode;
 import vn.id.hph.kitecine.mapper.AuditoriumMapper;
@@ -120,5 +121,10 @@ public class AuditoriumService {
 
     public int getNumberOfAuditoriums(Long id) {
         return auditoriumRepository.countByCinema_Id(id);
+    }
+
+    public int getNumberOfAuditoriums() {
+        return auditoriumRepository.countAllByStatusAndCinema_Status(
+                AuditoriumStatus.ACTIVE.name(), CinemaStatus.ACTIVE.name());
     }
 }

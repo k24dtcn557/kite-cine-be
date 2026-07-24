@@ -9,4 +9,6 @@ import vn.id.hph.kitecine.entity.Auditorium;
 @Repository
 public interface AuditoriumRepository extends JpaRepository<Auditorium, Long>, JpaSpecificationExecutor<Auditorium> {
     int countByCinema_Id(Long id);
+
+    int countAllByStatusAndCinema_Status(String status, String cinemaStatus);
 }

@@ -22,6 +22,7 @@ import vn.id.hph.kitecine.controller.param.SeatSearchParam;
 import vn.id.hph.kitecine.controller.reponse.PageResponse;
 import vn.id.hph.kitecine.entity.Auditorium;
 import vn.id.hph.kitecine.entity.Seat;
+import vn.id.hph.kitecine.enums.AuditoriumStatus;
 import vn.id.hph.kitecine.exception.AppException;
 import vn.id.hph.kitecine.exception.ErrorCode;
 import vn.id.hph.kitecine.mapper.SeatMapper;
@@ -116,5 +117,9 @@ public class SeatService {
         var seats = seatRepository.findAllById(param.ids());
         seats.forEach(s -> s.setSeatType(param.seatType().name()));
         seatRepository.saveAll(seats);
+    }
+
+    public int getSeatCount() {
+        return seatRepository.countByAuditorium_Status(AuditoriumStatus.ACTIVE.name());
     }
 }

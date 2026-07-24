@@ -13,4 +13,6 @@ public interface SeatRepository extends JpaRepository<Seat, Long>, JpaSpecificat
     boolean existsByAuditorium_IdAndRowLetter(Long id, String rowLetter);
 
     List<Seat> findByAuditorium_Id(Long auditoriumId);
+
+    int countByAuditorium_Status(String status);
 }

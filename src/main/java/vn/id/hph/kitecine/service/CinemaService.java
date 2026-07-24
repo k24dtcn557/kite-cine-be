@@ -106,4 +106,8 @@ public class CinemaService {
         cinema.setStatus(CinemaStatus.INACTIVE.name());
         cinemaRepository.save(cinema);
     }
+
+    public int getNumberOfCinemas() {
+        return (int) cinemaRepository.countAllByStatus(CinemaStatus.ACTIVE.name());
+    }
 }

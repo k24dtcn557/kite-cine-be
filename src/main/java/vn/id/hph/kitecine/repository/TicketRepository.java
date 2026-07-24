@@ -1,9 +1,13 @@
 package vn.id.hph.kitecine.repository;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import vn.id.hph.kitecine.entity.Ticket;
@@ -21,4 +25,11 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>, JpaSpecif
     List<Ticket> findByBuyerIdAndStatusIn(String buyerId, List<String> statuses);
 
     List<Ticket> findByShowtime_IdAndBuyerIdAndStatusIn(long showTimeId, String userId, List<String> statuses);
-}
+
+    int countByStatusAndShowtime_Date(String status, LocalDate date);
+
+    @Query("SELECT SUM(e.purchasePrice) FROM Ticket e WHERE e.status = :status AND e.showtime.date = :date")
+    BigDecimal sumPurchasePriceByStatusAndShowtimeDate(
+            @Param("status") String status,
+            @Param("date") LocalDate date
+    );}
