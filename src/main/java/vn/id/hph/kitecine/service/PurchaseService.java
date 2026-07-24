@@ -84,7 +84,7 @@ public class PurchaseService {
     }
 
     public List<Purchase> getPastBookings() {
-        LocalDate today = Instant.now().atZone(ZoneId.of("Asia/Ho_Chi_Minh")).toLocalDate();
+        LocalDate today = CommonUtils.getVietnamLocalDate();
 
         Specification<Purchase> query = (root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();

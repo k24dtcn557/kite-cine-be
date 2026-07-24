@@ -208,4 +208,8 @@ public class TicketService {
         return ticketRepository.sumPurchasePriceByStatusAndShowtimeDates(
                 TicketStatus.CONFIRMED.name(), fromDate, toDate);
     }
+
+    public BigDecimal getRevenueByMovie(Long id) {
+        return ticketRepository.sumPurchasePriceByStatusAndMovieId(TicketStatus.CONFIRMED.name(), id);
+    }
 }
