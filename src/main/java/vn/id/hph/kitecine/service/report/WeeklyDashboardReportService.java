@@ -67,7 +67,7 @@ public class WeeklyDashboardReportService implements DashboardReportService {
             timeSeries.add(today.minusDays(i));
         }
 
-        return timeSeries;
+        return timeSeries.reversed();
     }
 
     private String generateLabel(LocalDate date) {
