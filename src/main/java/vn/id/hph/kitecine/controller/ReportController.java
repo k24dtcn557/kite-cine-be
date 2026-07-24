@@ -3,6 +3,7 @@ package vn.id.hph.kitecine.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,7 +33,7 @@ public class ReportController {
                 .build();
     }
 
-    @GetMapping("/revenue")
+    @PostMapping("/revenue")
     ApiResponse<List<ChartColumnDto>> getRevenueReport(@RequestBody DashboardReportParam param) {
         return ApiResponse.<List<ChartColumnDto>>builder()
                 .result(reportFacade.getReport(param))
