@@ -43,15 +43,15 @@ public class ShowTime extends AbstractAuditEntity {
     @Column(name = "end_time")
     LocalTime endTime;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie_id", nullable = false)
     Movie movie;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "auditorium_id", nullable = false)
     Auditorium auditorium;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "price_model_id", nullable = false)
     PriceModel priceModel;
 }

@@ -38,7 +38,7 @@ public class CrewMember extends AbstractAuditEntity {
     @JoinColumn(name = "movie_id", nullable = false)
     Movie movie;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "crew_person_id", nullable = false)
     CrewPerson crewPerson;
 }

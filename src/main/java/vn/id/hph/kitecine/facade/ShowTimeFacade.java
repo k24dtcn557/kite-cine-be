@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -167,6 +168,10 @@ public class ShowTimeFacade {
                             showTimeDtos.add(showTimeDto);
                         }
                     }
+
+                    if (CollectionUtils.isEmpty(showTimeDtos)) {
+                        continue; // Skip this auditorium if there are no show times
+                    }
                     auditoriumShowTimeDto.setShowTimes(showTimeDtos);
                     auditoriumDtos.add(auditoriumShowTimeDto);
 
@@ -174,6 +179,10 @@ public class ShowTimeFacade {
                     showTimes.removeIf(
                             showTime -> showTime.getAuditorium().getId().equals(auditorium.getId()));
                 }
+            }
+
+            if (CollectionUtils.isEmpty(auditoriumDtos)) {
+                continue; // Skip this cinema if there are no auditoriums with show times
             }
 
             cinemaShowTimeDto.setAuditoriums(auditoriumDtos);

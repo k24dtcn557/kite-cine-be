@@ -37,7 +37,7 @@ public class Purchase extends AbstractAuditEntity {
     @Column(name = "code")
     String code;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "showtime_id", nullable = false)
     ShowTime showtime;
 

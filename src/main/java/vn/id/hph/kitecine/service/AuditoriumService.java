@@ -93,7 +93,7 @@ public class AuditoriumService {
     }
 
     public List<Auditorium> getAll() {
-        return auditoriumRepository.findAll();
+        return auditoriumRepository.findAllByStatusOrderByIdDesc(AuditoriumStatus.ACTIVE.name());
     }
 
     public Auditorium get(Long id) {
