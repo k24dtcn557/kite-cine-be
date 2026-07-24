@@ -71,6 +71,6 @@ public class WeeklyDashboardReportService implements DashboardReportService {
     }
 
     private String generateLabel(LocalDate date) {
-        return CommonUtils.formatShortDate(date);
+        return CommonUtils.formatDayMonth(date);
     }
 }

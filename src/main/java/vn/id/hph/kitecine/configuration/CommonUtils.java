@@ -16,6 +16,8 @@ public class CommonUtils {
     private static final String SAFE_ALPHABET = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
     private static final SecureRandom RANDOM = new SecureRandom();
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter dayMonthFormatter = DateTimeFormatter.ofPattern("dd/MM");
+
     private static final String[] days = {
         "Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy",
     };
@@ -55,6 +57,15 @@ public class CommonUtils {
         }
         // Format the date
         String date = localDate.format(dateFormatter);
+        return date;
+    }
+
+    public static String formatDayMonth(LocalDate localDate) {
+        if (localDate == null) {
+            return "";
+        }
+        // Format the date
+        String date = localDate.format(dayMonthFormatter);
         return date;
     }
 
