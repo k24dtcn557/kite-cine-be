@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 
@@ -47,7 +48,7 @@ public class WeeklyDashboardReportService implements DashboardReportService {
 
             ChartColumnDto chartColumn = ChartColumnDto.builder()
                     .label(generateLabel(date))
-                    .value(revenue.longValue())
+                    .value(Objects.isNull(revenue) ? 0 : revenue.longValue())
                     .build();
 
             chart.add(chartColumn);
