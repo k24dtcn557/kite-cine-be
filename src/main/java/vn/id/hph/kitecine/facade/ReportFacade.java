@@ -35,6 +35,6 @@ public class ReportFacade {
         double fillRate = totalTicketsSold / (double) seatCount;
         BigDecimal revenue = ticketService.getRevenueToday();
 
-        return new DashboardQuickStatsDto(revenue, totalCinemas, totalAuditoriums, seatCount, fillRate);
+        return new DashboardQuickStatsDto(revenue, totalCinemas, totalAuditoriums, totalTicketsSold, fillRate);
     }
 }
