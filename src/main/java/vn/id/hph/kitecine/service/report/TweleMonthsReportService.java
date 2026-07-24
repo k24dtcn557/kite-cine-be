@@ -1,17 +1,10 @@
 package vn.id.hph.kitecine.service.report;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-import org.springframework.stereotype.Component;
-
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import vn.id.hph.kitecine.configuration.CommonUtils;
 import vn.id.hph.kitecine.controller.param.DashboardReportParam;
 import vn.id.hph.kitecine.enums.TimeRange;
@@ -19,16 +12,22 @@ import vn.id.hph.kitecine.service.TicketService;
 import vn.id.hph.kitecine.service.model.ChartColumnDto;
 import vn.id.hph.kitecine.service.model.ChartReportDto;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class WeeklyDashboardReportService implements DashboardReportService {
+public class TweleMonthsReportService implements DashboardReportService {
     TicketService ticketService;
 
     @Override
     public TimeRange getTimeRange() {
-        return TimeRange.SEVEN_DAYS;
+        return TimeRange.ONE_YEAR;
     }
 
     @Override
@@ -63,7 +62,7 @@ public class WeeklyDashboardReportService implements DashboardReportService {
         List<LocalDate> timeSeries = new ArrayList<>();
         timeSeries.add(today);
 
-        for (int i = 1; i <= 7; i++) {
+        for (int i = 1; i <= 30; i++) {
             timeSeries.add(today.minusDays(i));
         }
 
