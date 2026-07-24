@@ -30,7 +30,6 @@ import vn.id.hph.kitecine.facade.dto.PurchaseDto;
 import vn.id.hph.kitecine.facade.dto.PurchaseWithShowTimeDto;
 import vn.id.hph.kitecine.facade.dto.SeatRowDto;
 import vn.id.hph.kitecine.facade.dto.TicketDto;
-import vn.id.hph.kitecine.mapper.TicketMapper;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,8 +40,6 @@ public class MovieBookingController {
     MovieFacade movieFacade;
     CrewMemberFacade crewMemberFacade;
     BookingFacade bookingFacade;
-
-    TicketMapper ticketMapper;
 
     @GetMapping("/movies/highlighted")
     public ApiResponse<List<MovieDto>> getHighLightedMovies() {

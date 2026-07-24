@@ -3,7 +3,6 @@ package vn.id.hph.kitecine.service;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,11 +66,13 @@ public class PurchaseService {
     }
 
     public List<Purchase> getUpComingBookings() {
-        LocalDate today = Instant.now().atZone(ZoneId.of("Asia/Ho_Chi_Minh")).toLocalDate();
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        LocalDate today = CommonUtils.getVietnamLocalDate();
 
         Specification<Purchase> query = (root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
+            predicates.add(criteriaBuilder.equal(root.get("buyerId"), userId));
             predicates.add(
                     criteriaBuilder.greaterThanOrEqualTo(root.get("showtime").get("date"), today));
 
@@ -84,11 +85,13 @@ public class PurchaseService {
     }
 
     public List<Purchase> getPastBookings() {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         LocalDate today = CommonUtils.getVietnamLocalDate();
 
         Specification<Purchase> query = (root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
+            predicates.add(criteriaBuilder.equal(root.get("buyerId"), userId));
             predicates.add(criteriaBuilder.lessThan(root.get("showtime").get("date"), today));
 
             criteriaQuery.orderBy(criteriaBuilder.desc(root.get("createdAt")));

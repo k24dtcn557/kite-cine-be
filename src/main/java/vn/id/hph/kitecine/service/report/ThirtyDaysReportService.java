@@ -14,7 +14,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import vn.id.hph.kitecine.configuration.CommonUtils;
 import vn.id.hph.kitecine.controller.param.DashboardReportParam;
-import vn.id.hph.kitecine.enums.TimeRange;
+import vn.id.hph.kitecine.enums.ReportType;
 import vn.id.hph.kitecine.service.TicketService;
 import vn.id.hph.kitecine.service.model.ChartColumnDto;
 import vn.id.hph.kitecine.service.model.ChartReportDto;
@@ -27,8 +27,8 @@ public class ThirtyDaysReportService implements DashboardReportService {
     TicketService ticketService;
 
     @Override
-    public TimeRange getTimeRange() {
-        return TimeRange.THIRTY_DAYS;
+    public ReportType getTimeRange() {
+        return ReportType.THIRTY_DAYS;
     }
 
     @Override

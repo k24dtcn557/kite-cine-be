@@ -82,7 +82,7 @@ public class CinemaService {
     }
 
     public List<Cinema> getAll() {
-        return cinemaRepository.findAllByOrderByIdDesc();
+        return cinemaRepository.findAllByStatusOrderByIdDesc(CinemaStatus.ACTIVE.name());
     }
 
     public Cinema get(Long id) {

@@ -14,7 +14,9 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import vn.id.hph.kitecine.configuration.CommonUtils;
 import vn.id.hph.kitecine.controller.param.DashboardReportParam;
+import vn.id.hph.kitecine.entity.Cinema;
 import vn.id.hph.kitecine.enums.ReportType;
+import vn.id.hph.kitecine.service.CinemaService;
 import vn.id.hph.kitecine.service.TicketService;
 import vn.id.hph.kitecine.service.model.ChartColumnDto;
 import vn.id.hph.kitecine.service.model.ChartReportDto;
@@ -23,12 +25,13 @@ import vn.id.hph.kitecine.service.model.ChartReportDto;
 @Component
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class SevenDaysReportService implements DashboardReportService {
+public class ByCinema30DaysReportService implements DashboardReportService {
     TicketService ticketService;
+    CinemaService cinemaService;
 
     @Override
     public ReportType getTimeRange() {
-        return ReportType.SEVEN_DAYS;
+        return ReportType.BY_CINEMA_30_DAYS;
     }
 
     @Override
@@ -39,15 +42,16 @@ public class SevenDaysReportService implements DashboardReportService {
     }
 
     private List<ChartColumnDto> generateChart(DashboardReportParam param) {
-        // Generate chart columns for the current day
+        // Generate chart columns for 30 days
         List<ChartColumnDto> chart = new ArrayList<>();
         var timeSeries = generateTimeSeries();
-
-        for (LocalDate date : timeSeries) {
-            BigDecimal revenue = ticketService.getRevenueByDay(date);
+        LocalDate today = CommonUtils.getVietnamLocalDate();
+        LocalDate previousDate = today.minusDays(30);
+        for (Cinema cinema : timeSeries) {
+            BigDecimal revenue = ticketService.getRevenueByCinema(cinema.getId(), previousDate, today);
 
             ChartColumnDto chartColumn = ChartColumnDto.builder()
-                    .label(generateLabel(date))
+                    .label(generateLabel(cinema))
                     .value(Objects.isNull(revenue) ? 0 : revenue.longValue())
                     .build();
 
@@ -58,19 +62,11 @@ public class SevenDaysReportService implements DashboardReportService {
     }
 
     // Generate time series for the report
-    private List<LocalDate> generateTimeSeries() {
-        LocalDate today = CommonUtils.getVietnamLocalDate();
-        List<LocalDate> timeSeries = new ArrayList<>();
-        timeSeries.add(today);
-
-        for (int i = 1; i <= 7; i++) {
-            timeSeries.add(today.minusDays(i));
-        }
-
-        return timeSeries.reversed();
+    private List<Cinema> generateTimeSeries() {
+        return cinemaService.getAll();
     }
 
-    private String generateLabel(LocalDate date) {
-        return CommonUtils.formatDayMonth(date);
+    private String generateLabel(Cinema cinema) {
+        return cinema.getName();
     }
 }

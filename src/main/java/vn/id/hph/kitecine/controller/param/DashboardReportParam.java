@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import vn.id.hph.kitecine.enums.TimeRange;
+import vn.id.hph.kitecine.enums.ReportType;
 
 @Data
 @Builder
@@ -16,5 +16,5 @@ import vn.id.hph.kitecine.enums.TimeRange;
 @AllArgsConstructor(onConstructor_ = @JsonIgnore)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DashboardReportParam {
-    TimeRange type;
+    ReportType type;
 }

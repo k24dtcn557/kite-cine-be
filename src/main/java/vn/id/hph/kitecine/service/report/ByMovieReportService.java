@@ -13,7 +13,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import vn.id.hph.kitecine.controller.param.DashboardReportParam;
 import vn.id.hph.kitecine.entity.Movie;
-import vn.id.hph.kitecine.enums.TimeRange;
+import vn.id.hph.kitecine.enums.ReportType;
 import vn.id.hph.kitecine.service.MovieService;
 import vn.id.hph.kitecine.service.TicketService;
 import vn.id.hph.kitecine.service.model.ChartColumnDto;
@@ -28,8 +28,8 @@ public class ByMovieReportService implements DashboardReportService {
     MovieService movieService;
 
     @Override
-    public TimeRange getTimeRange() {
-        return TimeRange.BY_MOVIE;
+    public ReportType getTimeRange() {
+        return ReportType.BY_MOVIE;
     }
 
     @Override
