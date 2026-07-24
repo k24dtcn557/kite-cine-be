@@ -4,19 +4,26 @@ import java.math.BigDecimal;
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Objects;
 
 public class CommonUtils {
-    // 32 characters: No 0, O, 1, or I
+    public static final String VIETNAM_TIMEZONE = "GMT+07";
     private static final String SAFE_ALPHABET = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
     private static final SecureRandom RANDOM = new SecureRandom();
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final String[] days = {
         "Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy",
     };
+
+    // Convert instant to Vietnam LocalDate
+    public static LocalDate getVietnamLocalDate() {
+        return Instant.now().atZone(ZoneId.of(VIETNAM_TIMEZONE)).toLocalDate();
+    }
 
     public static String generateTicketCode() {
         StringBuilder sb = new StringBuilder(9); // 8 chars + 1 hyphen
@@ -39,6 +46,15 @@ public class CommonUtils {
         // Format the date
         String date = localDate.format(dateFormatter);
         date = days[localDate.getDayOfWeek().getValue() % 7] + ", " + date;
+        return date;
+    }
+
+    public static String formatShortDate(LocalDate localDate) {
+        if (localDate == null) {
+            return "";
+        }
+        // Format the date
+        String date = localDate.format(dateFormatter);
         return date;
     }
 

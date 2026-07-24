@@ -29,7 +29,5 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>, JpaSpecif
     int countByStatusAndShowtime_Date(String status, LocalDate date);
 
     @Query("SELECT SUM(e.purchasePrice) FROM Ticket e WHERE e.status = :status AND e.showtime.date = :date")
-    BigDecimal sumPurchasePriceByStatusAndShowtimeDate(
-            @Param("status") String status,
-            @Param("date") LocalDate date
-    );}
+    BigDecimal sumPurchasePriceByStatusAndShowtimeDate(@Param("status") String status, @Param("date") LocalDate date);
+}
