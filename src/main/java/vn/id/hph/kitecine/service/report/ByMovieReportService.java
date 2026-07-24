@@ -29,7 +29,7 @@ public class ByMovieReportService implements DashboardReportService {
 
     @Override
     public TimeRange getTimeRange() {
-        return TimeRange.ONE_YEAR;
+        return TimeRange.BY_MOVIE;
     }
 
     @Override
