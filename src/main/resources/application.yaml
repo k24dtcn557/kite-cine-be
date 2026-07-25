@@ -31,7 +31,7 @@ email-services:
     url: https://api.brevo.com
     apikey: ${BREVO_API_KEY:brevokey}
 storage:
-  location: ./files
+  location: ${STORAGE_DIR:./files}
   url: ${MEDIA_DOWNLOAD_URL:http://localhost:8680/kite-cine/media}
 
 jwt:

@@ -23,6 +23,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import vn.id.hph.kitecine.constant.PredefinedRole;
 import vn.id.hph.kitecine.controller.param.ChangePasswordParam;
+import vn.id.hph.kitecine.controller.param.UserAvatarUpdateParam;
 import vn.id.hph.kitecine.controller.param.UserCreationParam;
 import vn.id.hph.kitecine.controller.param.UserProfileUpdateParam;
 import vn.id.hph.kitecine.controller.param.UserRegistrationParam;
@@ -205,6 +206,17 @@ public class UserService {
     public UserDto lockUser(String userId) {
         User user = get(userId);
         user.setStatus(UserStatus.LOCKED.name());
+        return userMapper.toUserDto(userRepository.save(user));
+    }
+
+    public UserDto updateAvatar(UserAvatarUpdateParam param) {
+        var context = SecurityContextHolder.getContext();
+        String userId = context.getAuthentication().getName();
+
+        User user = userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        user.setAvatar(param.getAvatar());
+
         return userMapper.toUserDto(userRepository.save(user));
     }
 }

@@ -19,6 +19,7 @@ import vn.id.hph.kitecine.controller.param.AuthenticationRequest;
 import vn.id.hph.kitecine.controller.param.ChangePasswordParam;
 import vn.id.hph.kitecine.controller.param.LogoutRequest;
 import vn.id.hph.kitecine.controller.param.ResetPasswordParam;
+import vn.id.hph.kitecine.controller.param.UserAvatarUpdateParam;
 import vn.id.hph.kitecine.controller.param.UserProfileUpdateParam;
 import vn.id.hph.kitecine.controller.param.UserRegistrationParam;
 import vn.id.hph.kitecine.controller.reponse.ApiResponse;
@@ -54,6 +55,13 @@ public class AuthenticationController {
     ApiResponse<UserDto> updateUser(@RequestBody UserProfileUpdateParam param) {
         return ApiResponse.<UserDto>builder()
                 .result(userFacade.updateProfile(param))
+                .build();
+    }
+
+    @PutMapping("/users/avatar")
+    ApiResponse<UserDto> updateUserAvatar(@RequestBody UserAvatarUpdateParam param) {
+        return ApiResponse.<UserDto>builder()
+                .result(userFacade.updateAvatar(param))
                 .build();
     }
 
