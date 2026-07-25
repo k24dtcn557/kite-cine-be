@@ -217,4 +217,8 @@ public class TicketService {
         return ticketRepository.sumPurchasePriceByStatusAndCinemaIdAndShowtimeDates(
                 TicketStatus.CONFIRMED.name(), id, fromDate, toDate);
     }
+
+    public int cleanUpHoldings() {
+        return ticketRepository.deleteExpiredTickets(Instant.now());
+    }
 }

@@ -1,5 +1,6 @@
 package vn.id.hph.kitecine.controller;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,5 +27,11 @@ public class BookingManagementController {
         return ApiResponse.<PageResponse<PurchaseWithShowTimeDto>>builder()
                 .result(bookingFacade.searchBookings(param))
                 .build();
+    }
+
+    @PostMapping("/bookings/{code}/cancel")
+    public ApiResponse<Void> cancelBooking(@PathVariable String code) {
+        bookingFacade.cancelBooking(code);
+        return ApiResponse.<Void>builder().build();
     }
 }

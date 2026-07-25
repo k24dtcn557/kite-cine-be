@@ -12,11 +12,13 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import vn.id.hph.kitecine.configuration.CommonUtils;
 import vn.id.hph.kitecine.controller.param.DashboardReportParam;
 import vn.id.hph.kitecine.facade.dto.DashboardQuickStatsDto;
 import vn.id.hph.kitecine.service.AuditoriumService;
 import vn.id.hph.kitecine.service.CinemaService;
 import vn.id.hph.kitecine.service.SeatService;
+import vn.id.hph.kitecine.service.ShowTimeService;
 import vn.id.hph.kitecine.service.TicketService;
 import vn.id.hph.kitecine.service.model.ChartColumnDto;
 import vn.id.hph.kitecine.service.report.DashboardReportService;
@@ -28,8 +30,8 @@ import vn.id.hph.kitecine.service.report.DashboardReportService;
 public class ReportFacade {
     CinemaService cinemaService;
     AuditoriumService auditoriumService;
+    ShowTimeService showTimeService;
     TicketService ticketService;
-    SeatService seatService;
     List<DashboardReportService> dashboardReportServices;
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -37,7 +39,7 @@ public class ReportFacade {
         int totalCinemas = cinemaService.getNumberOfCinemas();
         int totalAuditoriums = auditoriumService.getNumberOfAuditoriums();
         int totalTicketsSold = ticketService.getSoldTicketsToday();
-        int seatCount = seatService.getSeatCount();
+        int seatCount = showTimeService.getScheduledSeats(CommonUtils.getVietnamLocalDate());
 
         double fillRate = totalTicketsSold / (double) seatCount;
         BigDecimal revenue = ticketService.getRevenueToday();

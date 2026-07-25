@@ -139,4 +139,20 @@ public class PurchaseService {
                         .toList())
                 .build();
     }
+
+    public void cancel(String code) {
+        Purchase purchase =
+                purchaseRepository.findByCode(code).orElseThrow(() -> new AppException(ErrorCode.PURCHASE_NOT_FOUND));
+
+        if (!purchase.getStatus().equals(PurchaseStatus.PAID.name())) {
+            throw new AppException(ErrorCode.PURCHASE_CANNOT_CANCEL);
+        }
+
+        purchase.setStatus(PurchaseStatus.CANCELLED.name());
+        purchaseRepository.save(purchase);
+    }
+
+    public int cleanUpExpiredPurchases() {
+        return purchaseRepository.deleteExpiredPurchases(Instant.now());
+    }
 }

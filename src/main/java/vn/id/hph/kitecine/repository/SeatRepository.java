@@ -15,4 +15,7 @@ public interface SeatRepository extends JpaRepository<Seat, Long>, JpaSpecificat
     List<Seat> findByAuditorium_Id(Long auditoriumId);
 
     int countByAuditorium_Status(String status);
+
+    int countByAuditorium_Id(Long id);
+
 }

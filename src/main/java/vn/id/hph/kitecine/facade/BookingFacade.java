@@ -3,10 +3,10 @@ package vn.id.hph.kitecine.facade;
 import java.math.BigDecimal;
 import java.util.List;
 
-import jakarta.transaction.Transactional;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import lombok.AccessLevel;
@@ -166,7 +166,15 @@ public class BookingFacade {
         return purchaseDto;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public PageResponse<PurchaseWithShowTimeDto> searchBookings(BookingSearchParam param) {
         return purchaseService.searchBookings(param);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @Transactional
+    public void cancelBooking(String code) {
+        // TODO: Refund
+        purchaseService.cancel(code);
     }
 }

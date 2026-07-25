@@ -1,11 +1,13 @@
 package vn.id.hph.kitecine.repository;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -46,4 +48,8 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>, JpaSpecif
             @Param("cinemaId") Long cinemaId,
             @Param("fromDate") LocalDate fromDate,
             @Param("toDate") LocalDate toDate);
+
+    @Modifying
+    @Query("DELETE FROM Ticket t WHERE t.status = 'HOLD' AND t.expirationTime <= :expirationTime")
+    int deleteExpiredTickets(@Param("expirationTime") Instant expirationTime);
 }

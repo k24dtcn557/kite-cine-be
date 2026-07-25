@@ -20,7 +20,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
 
 email-services:
   senders:
@@ -32,7 +32,7 @@ email-services:
     apikey: ${BREVO_API_KEY:brevokey}
 storage:
   location: ./files
-  url: ${MEDIA_DOWNLOAD_URL:https://kitecineapi.hph.id.vn/kite-cine/media}
+  url: ${MEDIA_DOWNLOAD_URL:http://localhost:8680/kite-cine/media}
 
 jwt:
   signerKey: ${JWT_SIGNER_KEY:signer-key}

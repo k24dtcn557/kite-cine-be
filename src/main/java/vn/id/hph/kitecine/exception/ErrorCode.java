@@ -35,8 +35,9 @@ public enum ErrorCode {
     NO_EMAIL_ADDRESS(2016, "Vui lòng cung cấp địa chỉ email", HttpStatus.BAD_REQUEST),
     EMAIL_SEND_FAILED(2017, "Gửi email thất bại", HttpStatus.INTERNAL_SERVER_ERROR),
     CANNOT_READ_TEMPLATE(2018, "Không thể đọc mẫu email", HttpStatus.INTERNAL_SERVER_ERROR),
-    FILE_NOT_FOUND(2019, "Không tìm thấy tệp", HttpStatus.NOT_FOUND);
-    ;
+    FILE_NOT_FOUND(2019, "Không tìm thấy tệp", HttpStatus.NOT_FOUND),
+    SHOW_TIME_OVERLAPPED(2020, "Suất chiếu bị trùng giờ với suất chiếu khác", HttpStatus.BAD_REQUEST),
+    PURCHASE_CANNOT_CANCEL(2021, "Không thể hủy đơn hàng vì chưa thanh toán", HttpStatus.BAD_REQUEST);
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;

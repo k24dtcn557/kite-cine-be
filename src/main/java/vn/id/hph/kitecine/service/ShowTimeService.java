@@ -28,6 +28,7 @@ import vn.id.hph.kitecine.entity.ShowTime;
 import vn.id.hph.kitecine.exception.AppException;
 import vn.id.hph.kitecine.exception.ErrorCode;
 import vn.id.hph.kitecine.mapper.ShowTimeMapper;
+import vn.id.hph.kitecine.repository.SeatRepository;
 import vn.id.hph.kitecine.repository.ShowTimeRepository;
 
 @Service
@@ -35,6 +36,7 @@ import vn.id.hph.kitecine.repository.ShowTimeRepository;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ShowTimeService {
     ShowTimeRepository showTimeRepository;
+    SeatRepository seatRepository;
     ShowTimeMapper showTimeMapper;
 
     public ShowTime create(Movie movie, Auditorium auditorium, PriceModel priceModel, ShowTimeParam param) {
@@ -43,8 +45,15 @@ public class ShowTimeService {
         entity.setPriceModel(priceModel);
         entity.setMovie(movie);
 
-        LocalTime entityTime = param.startTime().plusMinutes(movie.getRuntime());
-        entity.setEndTime(entityTime);
+        LocalTime endTime = param.startTime().plusMinutes(movie.getRuntime());
+
+        boolean overlaps = showTimeRepository.existsByAuditoriumAndDateAndStartTimeLessThanAndEndTimeGreaterThan(
+                auditorium, param.date(), endTime, param.startTime());
+        if (overlaps) {
+            throw new AppException(ErrorCode.SHOW_TIME_OVERLAPPED);
+        }
+
+        entity.setEndTime(endTime);
 
         return showTimeRepository.save(entity);
     }
@@ -55,8 +64,16 @@ public class ShowTimeService {
         entity.setAuditorium(auditorium);
         entity.setPriceModel(priceModel);
         entity.setMovie(movie);
-        LocalTime entityTime = param.startTime().plusMinutes(movie.getRuntime());
-        entity.setEndTime(entityTime);
+        LocalTime endTime = param.startTime().plusMinutes(movie.getRuntime());
+
+        boolean overlaps =
+                showTimeRepository.existsByAuditoriumAndDateAndIdNotAndStartTimeLessThanAndEndTimeGreaterThan(
+                        auditorium, param.date(), id, endTime, param.startTime());
+        if (overlaps) {
+            throw new AppException(ErrorCode.SHOW_TIME_OVERLAPPED);
+        }
+
+        entity.setEndTime(endTime);
         return showTimeRepository.save(entity);
     }
 
@@ -118,5 +135,15 @@ public class ShowTimeService {
 
     public List<ShowTime> getByMovieIdAndDate(Long movieId, LocalDate date) {
         return showTimeRepository.findByMovie_IdAndDate(movieId, date);
+    }
+
+    public int getScheduledSeats(LocalDate date) {
+        List<ShowTime> showTimes = showTimeRepository.findAllByDate(date);
+        int totalSeats = 0;
+        for (ShowTime showTime : showTimes) {
+            totalSeats += seatRepository.countByAuditorium_Id(showTime.getAuditorium().getId());
+        }
+
+        return totalSeats;
     }
 }

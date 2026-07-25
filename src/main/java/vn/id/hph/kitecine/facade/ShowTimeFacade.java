@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import lombok.AccessLevel;
@@ -44,6 +45,7 @@ public class ShowTimeFacade {
     private final CinemaService cinemaService;
 
     @PreAuthorize("hasRole('ADMIN')")
+    @Transactional
     public ShowTimeDto createShowTime(ShowTimeParam param) {
         Auditorium auditorium = auditoriumService.get(param.auditoriumId());
         PriceModel priceModel = priceModelService.get(param.priceModelId());
