@@ -17,7 +17,6 @@ import vn.id.hph.kitecine.controller.param.DashboardReportParam;
 import vn.id.hph.kitecine.facade.dto.DashboardQuickStatsDto;
 import vn.id.hph.kitecine.service.AuditoriumService;
 import vn.id.hph.kitecine.service.CinemaService;
-import vn.id.hph.kitecine.service.SeatService;
 import vn.id.hph.kitecine.service.ShowTimeService;
 import vn.id.hph.kitecine.service.TicketService;
 import vn.id.hph.kitecine.service.model.ChartColumnDto;

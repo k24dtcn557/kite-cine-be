@@ -175,6 +175,8 @@ public class BookingFacade {
     @Transactional
     public void cancelBooking(String code) {
         // TODO: Refund
-        purchaseService.cancel(code);
+        var purchase = purchaseService.cancel(code);
+        var tickets = ticketService.getByPurchaseId(purchase.getId());
+        ticketService.cancel(tickets);
     }
 }

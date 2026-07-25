@@ -221,4 +221,11 @@ public class TicketService {
     public int cleanUpHoldings() {
         return ticketRepository.deleteExpiredTickets(Instant.now());
     }
+
+    public void cancel(List<Ticket> tickets) {
+        for (Ticket ticket : tickets) {
+            ticket.setStatus(TicketStatus.CANCELLED.name());
+        }
+        ticketRepository.saveAll(tickets);
+    }
 }

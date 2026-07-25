@@ -140,7 +140,7 @@ public class PurchaseService {
                 .build();
     }
 
-    public void cancel(String code) {
+    public Purchase cancel(String code) {
         Purchase purchase =
                 purchaseRepository.findByCode(code).orElseThrow(() -> new AppException(ErrorCode.PURCHASE_NOT_FOUND));
 
@@ -149,7 +149,7 @@ public class PurchaseService {
         }
 
         purchase.setStatus(PurchaseStatus.CANCELLED.name());
-        purchaseRepository.save(purchase);
+        return purchaseRepository.save(purchase);
     }
 
     public int cleanUpExpiredPurchases() {

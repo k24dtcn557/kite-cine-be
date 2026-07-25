@@ -141,7 +141,8 @@ public class ShowTimeService {
         List<ShowTime> showTimes = showTimeRepository.findAllByDate(date);
         int totalSeats = 0;
         for (ShowTime showTime : showTimes) {
-            totalSeats += seatRepository.countByAuditorium_Id(showTime.getAuditorium().getId());
+            totalSeats +=
+                    seatRepository.countByAuditorium_Id(showTime.getAuditorium().getId());
         }
 
         return totalSeats;
