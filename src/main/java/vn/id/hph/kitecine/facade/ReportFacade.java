@@ -40,8 +40,9 @@ public class ReportFacade {
         int totalTicketsSold = ticketService.getSoldTicketsToday();
         int seatCount = showTimeService.getScheduledSeats(CommonUtils.getVietnamLocalDate());
 
-        double fillRate = totalTicketsSold / (double) seatCount;
-        BigDecimal revenue = ticketService.getRevenueToday();
+        double fillRate = seatCount == 0 ? 0 : totalTicketsSold / (double) seatCount;
+        BigDecimal revenue =
+                Objects.isNull(ticketService.getRevenueToday()) ? BigDecimal.ZERO : ticketService.getRevenueToday();
 
         return new DashboardQuickStatsDto(revenue, totalCinemas, totalAuditoriums, totalTicketsSold, fillRate);
     }
