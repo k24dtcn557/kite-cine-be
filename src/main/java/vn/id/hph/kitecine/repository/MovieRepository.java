@@ -14,5 +14,5 @@ public interface MovieRepository extends JpaRepository<Movie, Long>, JpaSpecific
 
     List<Movie> findAllByHighlightedAndStatus(boolean highlighted, String status);
 
-    List<Movie> findAllByStatus(String name);
+    List<Movie> findAllByStatusOrderByReleaseDateAsc(String status);
 }

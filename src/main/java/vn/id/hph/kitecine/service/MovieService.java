@@ -102,10 +102,7 @@ public class MovieService {
     }
 
     public void delete(Long id) {
-        //        var movie = movieRepository.findById(id).orElseThrow(() -> new
-        // AppException(ErrorCode.MOVIE_NOT_FOUND));
-        //        movie.setStatus(MovieStatus.ARCHIVED.name());
-        //        movieRepository.deleteById(movie);
+        movieRepository.deleteById(id);
     }
 
     public void activate(Long id) {
@@ -135,7 +132,7 @@ public class MovieService {
     }
 
     public List<Movie> getComingSoonMovies() {
-        return movieRepository.findAllByStatus(MovieStatus.COMING_SOON.name());
+        return movieRepository.findAllByStatusOrderByReleaseDateAsc(MovieStatus.COMING_SOON.name());
     }
 
     public List<CrewMember> getCrewMembers(Long id) {
