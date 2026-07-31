@@ -42,7 +42,7 @@ public class FileMgmtService {
     @Transactional
     public FileMgmtDto getUploadDirectory(String folderName) {
         FileMgmt level1Folder = getLevel1Folder(folderName);
-        return fileMgmtMapper.toFileMgmtDto(getUploadFolder(level1Folder));
+        return fileMgmtMapper.toFileMgmtDto(level1Folder);
     }
 
     private FileMgmt getUploadFolder(FileMgmt parent) {
